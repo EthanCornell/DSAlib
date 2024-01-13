@@ -13,64 +13,87 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 ## List of Covered Data Structures and Algorithms (I hope)
 
 ## Arrays
-- [ ] Array
-- [ ] Bit array
-- [ ] Bit field
-- [ ] Bitboard
-- [ ] Bitmap
-- [ ] Circular buffer
-- [ ] Control table
-- [ ] Image
-- [ ] Dope vector
-- [ ] Dynamic array
-- [ ] Gap buffer
-- [ ] Hashed array tree
-- [ ] Lookup table
-- [ ] Matrix
-- [ ] Parallel array
-- [ ] Sorted array
-- [ ] Sparse matrix
-- [ ] Iliffe vector
-- [ ] Variable-length array
+| Category | Name                  | Properties | Language | Source |
+| -------- | --------------------- | ---------- | -------- | ------ |
+| Arrays   | Array                 |            |          |        |
+| Arrays   | Bit array             |            |          |        |
+| Arrays   | Bit field             |            |          |        |
+| Arrays   | Bitboard             |            |          |        |
+| Arrays   | Bitmap               |            |          |        |
+| Arrays   | Circular buffer       |            |          |        |
+| Arrays   | Control table         |            |          |        |
+| Arrays   | Image                |            |          |        |
+| Arrays   | Dope vector           |            |          |        |
+| Arrays   | Dynamic array         |            |          |        |
+| Arrays   | Gap buffer            |            |          |        |
+| Arrays   | Hashed array tree     |            |          |        |
+| Arrays   | Lookup table          |            |          |        |
+| Arrays   | Matrix               |            |          |        |
+| Arrays   | Parallel array       |            |          |        |
+| Arrays   | Sorted array         |            |          |        |
+| Arrays   | Sparse matrix        |            |          |        |
+| Arrays   | Iliffe vector        |            |          |        |
+| Arrays   | Variable-length array |            |          |        |
+
+
 
 ## Stack
-- [ ] Stack
+| Category | Name                  | Properties | Language | Source |
+| -------- | --------------------- | ---------- | -------- | ------ |
+| Stack   | Stack                 |            |     C     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/stack.c)    |
 
 ## Queue
-- [ ] Queue
+| Category | Name                  | Properties | Language | Source |
+| -------- | --------------------- | ---------- | -------- | ------ |
+| Queue   | Queue                 |            |      C    |   [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/queue.c)     |
 
 ## Set & Map
-- [ ] Set
-- [ ] Map
+| Category | Name                  | Properties | Language | Source |
+| -------- | --------------------- | ---------- | -------- | ------ |
+| Set & Map   | Set                 |            |     C     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/set.c)    |
+| Set & Map   | Map                 |            |          |        |
 
 ## Lists
-- [ ] Doubly linked list
-- [ ] Array list 
-- [ ] Linked list (Singly linked list)
-- [ ] Association list
-- [ ] Self-organizing list
-- [ ] Skip list
-- [ ] Unrolled linked list
-- [ ] VList
-- [ ] Conc-tree list
-- [ ] Xor linked list
-- [ ] Zipper
-- [ ] Doubly connected edge list (Half-edge)
-- [ ] Difference list
-- [ ] Free list
+| Category                             | Name                                      | Properties | Language | Source |
+| ------------------------------------ | ----------------------------------------- | ---------- | -------- | ------ |
+| Lists                                | Doubly linked list                        |            |          |        |
+| Lists                                | Array list                                |            |          |        |
+| Lists                                | Linked list (Singly linked list)         |            |   C      | [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/singly_linked_list.c) |
+| Lists                                | Association list                         |            |          |        |
+| Lists                                | Self-organizing list                     |            |          |        |
+| Lists                                | Skip list                                |            |          |        |
+| Lists                                | Unrolled linked list                     |            |          |        |
+| Lists                                | VList                                    |            |          |        |
+| Lists                                | Conc-tree list                           |            |          |        |
+| Lists                                | Xor linked list                          |            |          |        |
+| Lists                                | Zipper                                   |            |          |        |
+| Lists                                | Doubly connected edge list (Half-edge)   |            |          |        |
+| Lists                                | Difference list                          |            |          |        |
+| Lists                                | Free list                                |            |          |        |
+
+
 
 ## Tree
-- [ ] Binary Tree
-- [ ] Red Black Tree
-- [ ] AVL Tree
-- [ ] B+ Tree
+| Category | Name           | Properties | Language | Source |
+| -------- | -------------- | ---------- | -------- | ------ |
+| Tree     | Binary Tree    |            |          |        |
+| Tree     | Red Black Tree |            |          |        |
+| Tree     | AVL Tree       |            |          |        |
+| Tree     | B+ Tree        |            |          |        |
+
 
 ## Graph
-- [ ] BFS
-- [ ] DFS
+| Category | Name | Properties | Language | Source |
+| -------- | ---- | ---------- | -------- | ------ |
+| Graph    | BFS  |            |          |        |
+| Graph    | DFS  |            |          |        |
+
 
 ## Persistent data structure
-- [ ] Copy-on-write
+| Category                  | Name           | Properties | Language | Source |
+| ------------------------- | -------------- | ---------- | -------- | ------ |
+| Persistent data structure | Copy-on-write |            |          |        |
+
 
 
 ## Usage
