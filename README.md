@@ -9,7 +9,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Here, you'll fin
 - **Performance and Optimization**: We focus on optimizing our code for both speed and memory efficiency, ensuring you get the best possible implementations.
 - **Growing Collection**: This repository is continuously updated with new data structures and algorithms, so be sure to check back for the latest additions.
 
-## List of Covered Data Structures and Algorithms
+## List of Covered Data Structures and Algorithms (I hope)
 
 ## Arrays
 - Array
@@ -34,7 +34,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Here, you'll fin
 
 ## Lists
 - Doubly linked list
-- Array list
+- Array list 
 - Linked list (Singly linked list)
 - Association list
 - Self-organizing list
@@ -48,6 +48,15 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Here, you'll fin
 - Difference list
 - Free list
 
+## Tree
+- Binary Tree
+- Red Black Tree
+- AVL Tree
+- B+ Tree
+
+## Persistent data structure
+- Copy-on-write
+- 
 
 ## Usage
 - Simply clone or fork this repository to access the code and start using the data structures and algorithms in your projects.
@@ -57,6 +66,6 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Here, you'll fin
 We welcome contributions from the community! If you have improvements, bug fixes, or additional data structures and algorithms you'd like to add, please submit a pull request. Check our contribution guidelines for more details.
 
 ## License
-This repository is open-source and available under the [MIT License](LICENSE.md). Feel free to use, modify, and distribute the code as per the terms of the license.
+This repository is open-source and available under the [GPLv3 License](LICENSE.md). Feel free to use, modify, and distribute the code as per the terms of the license.
 
 Happy coding!
