@@ -1,3 +1,22 @@
+/*
+ * Copyright (c) Cornell University.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Author: I-Hsuan (Ethan) Huang
+ * Email: ih246@cornell.edu
+ */
+
 #include <atomic>
 #include <memory>
 #include <thread>
@@ -58,6 +77,12 @@ public:
     }
 };
 
+
+// To test the lock-free queue for the ABA problem, we would need to create a scenario where a node is enqueued, dequeued, and then a new node (possibly with the same value) is enqueued again, 
+// while multiple threads are involved. We can set up a basic test scenario with multiple threads:
+
+// Thread 1: Enqueues and dequeues elements repeatedly.
+// Thread 2: Enqueues elements with the same values.
 int main() {
     LockFreeQueue<int> queue;
 
