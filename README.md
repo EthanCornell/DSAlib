@@ -46,6 +46,8 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | Category | Name                  | Properties | Language | Source |
 | -------- | --------------------- | ---------- | -------- | ------ |
 | Queue   | Queue                 |            |      C    |   [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/queue.c)     |
+| Queue   | Queue                 |      Non-Blocking Concurrent Queue     |      C++    |   [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/Concurrent%20DSA/CPP/lockfree_queue.cpp)     |
+| Queue   | Deque                 |            |      C    |   [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/deque.c)     |
 
 ## Set & Map
 | Category | Name                  | Properties | Language | Source |
@@ -101,9 +103,19 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 - Each data structure and algorithm is organized into separate folders for easy navigation and usage.
 
 ## Contribution
-We welcome contributions from the community! If you have improvements, bug fixes, or additional data structures and algorithms you'd like to add, please submit a pull request. Check our contribution guidelines for more details.
+Ethan Huang
 
 ## License
 This repository is open-source and available under the [GPLv3 License](LICENSE.md). Feel free to use, modify, and distribute the code as per the terms of the license.
 
 Happy coding!
+
+## Reference
+
+Here, you can find additional resources and references related to the data structures and algorithms covered in this repository. This section will help you dive deeper into the topics and enhance your understanding.
+
+- [Simple, Fast, and Practical Non-Blocking and Blocking Concurrent Queue Algorithms](https://www.cs.rochester.edu/~scott/papers/1996_PODC_queues.pdf)
+- [Implementing Lock-Free Queues](https://people.cs.pitt.edu/~jacklange/teaching/cs2510-f12/papers/implementing_lock_free.pdf)
+
+Feel free to explore these resources to further enrich your knowledge in this domain.
+
