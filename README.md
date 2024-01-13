@@ -82,7 +82,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | Tree     | Red Black Tree |            |          |        |
 | Tree     | AVL Tree       |            |          |        |
 | Tree     | B+ Tree        |            |          |        |
-
+| Tree     | K-D Tree       |            |          |        |
 
 ## Graph
 | Category | Name | Properties | Language | Source |
@@ -96,6 +96,16 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | ------------------------- | -------------- | ---------- | -------- | ------ |
 | Persistent data structure | Copy-on-write |            |          |        |
 
+## Greedy Algorithms
+| Category | Name | Properties | Language | Source |
+| -------- | ---- | ---------- | -------- | ------ |
+| Greedy    | minimum spanning tree (MST)  |            |          |        |
+| Greedy    | Dijkstra's algorithm   |            |          |        |
+
+## Dynamic Programming
+| Category | Name | Properties | Language | Source |
+| -------- | ---- | ---------- | -------- | ------ |
+| DP    | Edit Distance Problem  |            |          |        |
 
 
 ## Usage
