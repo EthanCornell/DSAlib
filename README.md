@@ -34,10 +34,14 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 - [ ] Variable-length array
 
 ## Stack
+- [ ] Stack
 
 ## Queue
+- [ ] Queue
 
 ## Set & Map
+- [ ] Set
+- [ ] Map
 
 ## Lists
 - [ ] Doubly linked list
@@ -67,7 +71,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 
 ## Persistent data structure
 - [ ] Copy-on-write
-- 
+- [ ]
 
 ## Usage
 - Simply clone or fork this repository to access the code and start using the data structures and algorithms in your projects.
