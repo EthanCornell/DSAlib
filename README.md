@@ -1,6 +1,6 @@
 # C/C++ Data Structures and Algorithms
 
-Welcome to the C/C++ Data Structures and Algorithms repository! Here, you'll find a collection of both concurrent and normal data structures and algorithm implementations in C and C++. Whether you're a beginner looking to learn about fundamental data structures and algorithms or an experienced developer seeking efficient concurrent solutions, this repository has you covered.
+Welcome to the C/C++ Data Structures and Algorithms repository! Here, you'll find a collection of both concurrent and classic data structures and algorithm implementations in C and C++. Whether you're a beginner looking to learn about fundamental data structures and algorithms or an experienced developer seeking efficient concurrent solutions, this repository has you covered.
 
 ## Key Features
 - **Concurrent Data Structures**: Explore a range of concurrent data structures designed to handle multi-threaded and parallel programming scenarios efficiently.
