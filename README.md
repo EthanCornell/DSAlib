@@ -41,6 +41,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | Category | Name                  | Properties | Language | Source |
 | -------- | --------------------- | ---------- | -------- | ------ |
 | Stack   | Stack                 |            |     C     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/stack.c)    |
+| Stack   | Stack                 |     Singlely List based       |     C     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/liStack.c)    |
 
 ## Queue
 | Category | Name                  | Properties | Language | Source |
