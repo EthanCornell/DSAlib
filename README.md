@@ -73,8 +73,6 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | Lists                                | Difference list                          |            |          |        |
 | Lists                                | Free list                                |            |          |        |
 
-
-
 ## Tree
 | Category | Name           | Properties | Language | Source |
 | -------- | -------------- | ---------- | -------- | ------ |
@@ -83,6 +81,26 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | Tree     | AVL Tree       |            |          |        |
 | Tree     | B+ Tree        |            |          |        |
 | Tree     | K-D Tree       |            |          |        |
+| Tree     | B-tree         |            |          |        |
+| Tree     | B*-tree        |            |          |        |
+| Tree     | Dancing tree   |            |          |        |
+| Tree     | 2–3 tree       |            |          |        |
+| Tree     | 2–3–4 tree     |            |          |        |
+| Tree     | Queap          |            |          |        |
+| Tree     | Bx-tree        |            |          |        |
+| Tree     | Min-max heap   |            |          |        |
+| Tree     | Binary heap    |            |          |        |
+| Tree     | 2–3 heap       |            |          |        |
+| Tree     | Skew heap      |            |          |        |
+| Tree     | D-ary heap     |            |          |        |
+| Tree     | Radix tree     |            |          |        |
+| Tree     | Suffix tree    |            |          |        |
+| Tree     | Suffix array   |            |          |        |
+| Tree     | Trie           |            |          |        |
+| Tree     | Segment tree   |            |          |        |
+
+##
+
 
 ## Graph
 | Category | Name | Properties | Language | Source |
