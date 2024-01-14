@@ -13,74 +13,137 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 ## List of Covered Data Structures and Algorithms (I hope)
 
 ## Arrays
-- [ ] Array
-- [ ] Bit array
-- [ ] Bit field
-- [ ] Bitboard
-- [ ] Bitmap
-- [ ] Circular buffer
-- [ ] Control table
-- [ ] Image
-- [ ] Dope vector
-- [ ] Dynamic array
-- [ ] Gap buffer
-- [ ] Hashed array tree
-- [ ] Lookup table
-- [ ] Matrix
-- [ ] Parallel array
-- [ ] Sorted array
-- [ ] Sparse matrix
-- [ ] Iliffe vector
-- [ ] Variable-length array
+| Category | Name                  | Properties | Language | Source |
+| -------- | --------------------- | ---------- | -------- | ------ |
+| Arrays   | Array                 |            |          |        |
+| Arrays   | Bit array             |            |          |        |
+| Arrays   | Bit field             |            |          |        |
+| Arrays   | Bitboard             |            |          |        |
+| Arrays   | Bitmap               |            |          |        |
+| Arrays   | Circular buffer       |            |          |        |
+| Arrays   | Control table         |            |          |        |
+| Arrays   | Image                |            |          |        |
+| Arrays   | Dope vector           |            |          |        |
+| Arrays   | Dynamic array         |            |          |        |
+| Arrays   | Gap buffer            |            |          |        |
+| Arrays   | Hashed array tree     |            |          |        |
+| Arrays   | Lookup table          |            |          |        |
+| Arrays   | Matrix               |            |          |        |
+| Arrays   | Parallel array       |            |          |        |
+| Arrays   | Sorted array         |            |          |        |
+| Arrays   | Sparse matrix        |            |          |        |
+| Arrays   | Iliffe vector        |            |          |        |
+| Arrays   | Variable-length array |            |          |        |
+
+
 
 ## Stack
-- [ ] Stack
+| Category | Name                  | Properties | Language | Source |
+| -------- | --------------------- | ---------- | -------- | ------ |
+| Stack   | Stack                 |            |     C     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/stack.c)    |
 
 ## Queue
-- [ ] Queue
+| Category | Name                  | Properties | Language | Source |
+| -------- | --------------------- | ---------- | -------- | ------ |
+| Queue   | Queue                 |            |      C    |   [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/queue.c)     |
+| Queue   | Queue                 |      Non-Blocking Concurrent Queue     |      C++    |   [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/Concurrent%20DSA/CPP/lockfree_queue.cpp)     |
+| Queue   | Deque                 |            |      C    |   [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/deque.c)     |
 
 ## Set & Map
-- [ ] Set
-- [ ] Map
+| Category | Name                  | Properties | Language | Source |
+| -------- | --------------------- | ---------- | -------- | ------ |
+| Set & Map   | Set                 |            |     C     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/set.c)    |
+| Set & Map   | Map                 |            |          |        |
 
 ## Lists
-- [ ] Doubly linked list
-- [ ] Array list 
-- [ ] Linked list (Singly linked list)
-- [ ] Association list
-- [ ] Self-organizing list
-- [ ] Skip list
-- [ ] Unrolled linked list
-- [ ] VList
-- [ ] Conc-tree list
-- [ ] Xor linked list
-- [ ] Zipper
-- [ ] Doubly connected edge list (Half-edge)
-- [ ] Difference list
-- [ ] Free list
+| Category                             | Name                                      | Properties | Language | Source |
+| ------------------------------------ | ----------------------------------------- | ---------- | -------- | ------ |
+| Lists                                | Doubly linked list                        |            |          |        |
+| Lists                                | Array list                                |            |          |        |
+| Lists                                | Linked list (Singly linked list)         |            |   C      | [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/singly_linked_list.c) |
+| Lists                                | Association list                         |            |          |        |
+| Lists                                | Self-organizing list                     |            |          |        |
+| Lists                                | Skip list                                |            |          |        |
+| Lists                                | Unrolled linked list                     |            |          |        |
+| Lists                                | VList                                    |            |          |        |
+| Lists                                | Conc-tree list                           |            |          |        |
+| Lists                                | Xor linked list                          |            |          |        |
+| Lists                                | Zipper                                   |            |          |        |
+| Lists                                | Doubly connected edge list (Half-edge)   |            |          |        |
+| Lists                                | Difference list                          |            |          |        |
+| Lists                                | Free list                                |            |          |        |
 
 ## Tree
-- [ ] Binary Tree
-- [ ] Red Black Tree
-- [ ] AVL Tree
-- [ ] B+ Tree
+| Category | Name           | Properties | Language | Source |
+| -------- | -------------- | ---------- | -------- | ------ |
+| Tree     | Binary Tree    |            |          |        |
+| Tree     | Red Black Tree |            |          |        |
+| Tree     | AVL Tree       |            |          |        |
+| Tree     | B+ Tree        |            |          |        |
+| Tree     | K-D Tree       |            |          |        |
+| Tree     | B-tree         |            |          |        |
+| Tree     | B*-tree        |            |          |        |
+| Tree     | Dancing tree   |            |          |        |
+| Tree     | 2–3 tree       |            |          |        |
+| Tree     | 2–3–4 tree     |            |          |        |
+| Tree     | Queap          |            |          |        |
+| Tree     | Bx-tree        |            |          |        |
+| Tree     | Min-max heap   |            |          |        |
+| Tree     | Binary heap    |            |          |        |
+| Tree     | 2–3 heap       |            |          |        |
+| Tree     | Skew heap      |            |          |        |
+| Tree     | D-ary heap     |            |          |        |
+| Tree     | Radix tree     |            |          |        |
+| Tree     | Suffix tree    |            |          |        |
+| Tree     | Suffix array   |            |          |        |
+| Tree     | Trie           |            |          |        |
+| Tree     | Segment tree   |            |          |        |
+
+##
+
 
 ## Graph
-- [ ] BFS
-- [ ] DFS
+| Category | Name | Properties | Language | Source |
+| -------- | ---- | ---------- | -------- | ------ |
+| Graph    | BFS  |            |          |        |
+| Graph    | DFS  |            |          |        |
+
 
 ## Persistent data structure
-- [ ] Copy-on-write
-- [ ]
+| Category                  | Name           | Properties | Language | Source |
+| ------------------------- | -------------- | ---------- | -------- | ------ |
+| Persistent data structure | Copy-on-write |            |          |        |
+
+## Greedy Algorithms
+| Category | Name | Properties | Language | Source |
+| -------- | ---- | ---------- | -------- | ------ |
+| Greedy    | minimum spanning tree (MST)  |            |          |        |
+| Greedy    | Dijkstra's algorithm   |            |          |        |
+
+## Dynamic Programming
+| Category | Name | Properties | Language | Source |
+| -------- | ---- | ---------- | -------- | ------ |
+| DP    | Edit Distance Problem  |            |          |        |
+
 
 ## Usage
 - Simply clone or fork this repository to access the code and start using the data structures and algorithms in your projects.
 - Each data structure and algorithm is organized into separate folders for easy navigation and usage.
 
 ## Contribution
-We welcome contributions from the community! If you have improvements, bug fixes, or additional data structures and algorithms you'd like to add, please submit a pull request. Check our contribution guidelines for more details.
+Ethan Huang
 
 ## License
 This repository is open-source and available under the [GPLv3 License](LICENSE.md). Feel free to use, modify, and distribute the code as per the terms of the license.
 
 Happy coding!
+
+## Reference
+
+Here, you can find additional resources and references related to the data structures and algorithms covered in this repository. This section will help you dive deeper into the topics and enhance your understanding.
+
+- [Simple, Fast, and Practical Non-Blocking and Blocking Concurrent Queue Algorithms](https://www.cs.rochester.edu/~scott/papers/1996_PODC_queues.pdf)
+- [Implementing Lock-Free Queues](https://people.cs.pitt.edu/~jacklange/teaching/cs2510-f12/papers/implementing_lock_free.pdf)
+
+Feel free to explore these resources to further enrich your knowledge in this domain.
+
