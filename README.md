@@ -97,7 +97,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | Tree     | Suffix tree    |            |          |        |
 | Tree     | Suffix array   |            |          |        |
 | Tree     | Trie           |            |          |        |
-| Tree     | Segment tree   |            |          |        |
+| Tree     | Segment tree   |            |    C++      |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/SegmentTree.cpp)    |
 
 ##
 
