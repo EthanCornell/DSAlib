@@ -61,9 +61,6 @@ public:
         if (deletedNode != nullptr) {
             fixDeleteRBTree(deletedNode);
         }
-
-        // Free the memory of the deleted node
-        // delete deletedNode;
     }
 
 
