@@ -42,6 +42,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | -------- | --------------------- | ---------- | -------- | ------ |
 | Stack   | Stack                 |            |     C     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/stack.c)    |
 | Stack   | Stack                 |     Singlely List based       |     C     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/liStack.c)    |
+| Stack   | Stack                 |     with smart pointer       |     C++     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/stack.cpp)    |
 
 ## Queue
 | Category | Name                  | Properties | Language | Source |
@@ -78,7 +79,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | Category | Name           | Properties | Language | Source |
 | -------- | -------------- | ---------- | -------- | ------ |
 | Tree     | Binary Tree    |            |          |        |
-| Tree     | Red Black Tree |            |          |        |
+| Tree     | Red Black Tree |            |    C++      |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/RBTree.cpp)    |
 | Tree     | AVL Tree       |            |          |        |
 | Tree     | B+ Tree        |            |          |        |
 | Tree     | K-D Tree       |            |          |        |
