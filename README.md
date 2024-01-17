@@ -107,6 +107,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 ## Graph
 | Category | Name | Properties | Language | Source |
 | -------- | ---- | ---------- | -------- | ------ |
+| Graph    | BFS  |     Concurrent BFS       |      C++    |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/Concurrent%20DSA/CPP/Concurrent_BFS.cpp)   |
 | Graph    | BFS  |            |          |        |
 | Graph    | DFS  |            |          |        |
 
