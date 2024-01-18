@@ -18,57 +18,73 @@
  */
 
 #include <atomic>
+#include <iostream>
 #include <memory>
 #include <thread>
-#include <iostream>
 
-template<typename T>
+template <typename T>
 class LockFreeQueue {
     struct Node {
         std::shared_ptr<T> data;
-        std::atomic<std::shared_ptr<Node>> next;
+        std::atomic<Node*> next;  // Changed to atomic
 
         Node(T value) : data(std::make_shared<T>(value)), next(nullptr) {}
     };
 
-    std::atomic<std::shared_ptr<Node>> head;
-    std::atomic<std::shared_ptr<Node>> tail;
+    std::atomic<Node*> head;
+    std::atomic<Node*> tail;
 
 public:
-    LockFreeQueue() : head(std::make_shared<Node>(T())), tail(head.load()) {}
+    LockFreeQueue() {
+        Node* dummy = new Node(T());  // Create a dummy node
+        head.store(dummy);
+        tail.store(dummy);
+    }
+
+    ~LockFreeQueue() {
+        Node* node;
+        while ((node = head.load())) {  // Corrected: Added parentheses
+            head.store(node->next);
+            delete node;
+        }
+    }
 
     void enqueue(T value) {
-        auto newNode = std::make_shared<Node>(value);
-        while(true) {
-            auto tailNode = tail.load();
-            auto next = tailNode->next.load();
+        Node* newNode = new Node(value);
+        while (true) {
+            Node* tailNode = tail.load();
+            Node* next = tailNode->next;
+
             if (tailNode == tail.load()) {
                 if (!next) {
-                    if (tailNode->next.compare_exchange_weak(next, newNode)) {
-                        tail.compare_exchange_weak(tailNode, newNode);
+                    Node* nullNode = nullptr;
+                    // Use atomic compare_exchange_weak directly on the atomic member
+                    if (std::atomic_compare_exchange_weak(&(tailNode->next), &nullNode, newNode)) {
+                        std::atomic_compare_exchange_weak(&tail, &tailNode, newNode);
                         return;
                     }
                 } else {
-                    tail.compare_exchange_weak(tailNode, next);
+                    std::atomic_compare_exchange_weak(&tail, &tailNode, next);
                 }
             }
         }
     }
 
-    bool dequeue(T& value) {
-        while(true) {
-            auto headNode = head.load();
-            auto tailNode = tail.load();
-            auto next = headNode->next.load();
+    bool dequeue(std::shared_ptr<T>& value) {
+        while (true) {
+            Node* headNode = head.load();
+            Node* tailNode = tail.load();
+            Node* next = headNode->next;
             if (headNode == head.load()) {
                 if (headNode == tailNode) {
                     if (!next) {
                         return false;
                     }
-                    tail.compare_exchange_weak(tailNode, next);
+                    std::atomic_compare_exchange_weak(&tail, &tailNode, next);
                 } else {
                     value = next->data;
-                    if (head.compare_exchange_weak(headNode, next)) {
+                    if (std::atomic_compare_exchange_weak(&head, &headNode, next)) {
+                        delete headNode;
                         return true;
                     }
                 }
@@ -77,9 +93,10 @@ public:
     }
 };
 
-
-// To test the lock-free queue for the ABA problem, we would need to create a scenario where a node is enqueued, dequeued, and then a new node (possibly with the same value) is enqueued again, 
-// while multiple threads are involved. We can set up a basic test scenario with multiple threads:
+// To test the lock-free queue for the ABA problem, we would need to create a
+// scenario where a node is enqueued, dequeued, and then a new node (possibly
+// with the same value) is enqueued again, while multiple threads are involved.
+// We can set up a basic test scenario with multiple threads:
 
 // Thread 1: Enqueues and dequeues elements repeatedly.
 // Thread 2: Enqueues elements with the same values.
@@ -88,19 +105,19 @@ int main() {
 
     // Thread 1: Enqueue and Dequeue
     std::thread t1([&]() {
-        for(int i = 0; i < 1000; ++i) {
+        for (int i = 0; i < 1000; ++i) {
             queue.enqueue(i);
-            int value;
+            std::shared_ptr<int> value;  // Changed from int to std::shared_ptr<int>
             if (queue.dequeue(value)) {
                 // Handle dequeued value
-                std::cout << "Dequeued: " << value << std::endl;
+                std::cout << "Dequeued: " << *value << std::endl;  // Dereference the pointer to access the value
             }
         }
     });
 
     // Thread 2: Only Enqueue
     std::thread t2([&]() {
-        for(int i = 0; i < 1000; ++i) {
+        for (int i = 0; i < 1000; ++i) {
             queue.enqueue(i);
         }
     });
