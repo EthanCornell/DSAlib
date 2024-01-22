@@ -19,6 +19,8 @@
 
 #include <memory>
 #include <iostream>
+#include <stdexcept>
+#include <initializer_list>
 
 template<typename T>
 struct Node {
@@ -43,6 +45,15 @@ public:
         }
     }
 
+    //Custom Copy Constructor
+    DoublyLinkedList(const DoublyLinkedList<T>& other) : head(nullptr), tail(nullptr) {
+        Node<T>* current = other.head.get();
+        while (current != nullptr) {
+            push_back(current->data);
+            current = current->next.get();
+        }
+    }
+
     void push_front(T value);
     void push_back(T value);
     void delete_front();
@@ -52,6 +63,36 @@ public:
     void delete_node(T value);
     bool addAll(const std::initializer_list<T>& elements);
     bool addAll(int index, const std::initializer_list<T>& elements);
+    void clear();
+    std::unique_ptr<DoublyLinkedList<T>> clone() const;
+    bool contains(const T& value) const;
+    
+
+    T element() const;
+    T get(int index) const;
+
+    class DescendingIterator {
+    private:
+        Node<T>* current;
+
+    public:
+        explicit DescendingIterator(Node<T>* start) : current(start) {}
+
+        bool hasNext() const {
+            return current != nullptr;
+        }
+
+        T next() {
+            if (!hasNext()) throw std::out_of_range("No more elements");
+            T data = current->data;
+            current = current->prev;
+            return data;
+        }
+    };
+
+    DescendingIterator descendingIterator() const {
+        return DescendingIterator(tail);
+    }
     // Other member functions can be added as needed
 };
 
@@ -188,6 +229,41 @@ bool DoublyLinkedList<T>::addAll(int index, const std::initializer_list<T>& elem
     return true;
 }
 
+template<typename T>
+void DoublyLinkedList<T>::clear() {
+    while (head) {
+        head = std::move(head->next);
+    }
+    tail = nullptr;
+}
+
+
+template<typename T>
+std::unique_ptr<DoublyLinkedList<T>> DoublyLinkedList<T>::clone() const {
+    auto newList = std::make_unique<DoublyLinkedList<T>>();
+    for (Node<T>* curr = head.get(); curr != nullptr; curr = curr->next.get()) {
+        newList->push_back(curr->data);
+    }
+    return newList;
+}
+
+
+template<typename T>
+bool DoublyLinkedList<T>::contains(const T& value) const {
+    for (Node<T>* curr = head.get(); curr != nullptr; curr = curr->next.get()) {
+        if (curr->data == value) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+template<typename T>
+T DoublyLinkedList<T>::element() const {
+    if (!head) throw std::out_of_range("List is empty");
+    return head->data;
+}
 
 
 
@@ -198,6 +274,20 @@ void DoublyLinkedList<T>::display_forward() {
     }
     std::cout << std::endl;
 }
+
+
+template<typename T>
+T DoublyLinkedList<T>::get(int index) const {
+    if (index < 0) throw std::out_of_range("Invalid index");
+    Node<T>* current = head.get();
+    for (int i = 0; i < index; ++i) {
+        if (!current) throw std::out_of_range("Index out of bounds");
+        current = current->next.get();
+    }
+    return current->data;
+}
+
+
 
 template<typename T>
 void DoublyLinkedList<T>::display_backward() {
@@ -274,5 +364,39 @@ int main() {
     bool result = list.addAll(20, {100, 110});
     std::cout << "Operation successful: " << std::boolalpha << result << std::endl;
     list.display_forward(); // Expected: No change in list
+
+    //test 4    
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+
+    // Test clear
+    list.clear();
+    // Should be empty now
+
+    // Test clone
+    list.push_back(4);
+    list.push_back(5);
+    auto clonedList = list.clone();
+    clonedList->display_forward(); // Should display the elements of the cloned list
+    // clonedList should have the same elements
+
+    // Test contains
+    bool contains4 = list.contains(4); // Should be true
+    bool contains6 = list.contains(6); // Should be false
+    std::cout << contains4 << ", " <<contains6 << std::endl;//true, false
+    
+    // Test descendingIterator
+    auto it = list.descendingIterator();
+    while (it.hasNext()) {
+        std::cout << it.next() << " ";
+    }
+    std::cout << std::endl; // Should print 5 4
+
+    // Test element
+    int firstElement = list.element(); // Should be 4
+
+    // Test get
+    int elementAt1 = list.get(1); // Should be 5
     return 0;
 }

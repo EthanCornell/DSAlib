@@ -16,8 +16,8 @@
  * Email: ih246@cornell.edu
  * Project: Cache Replacement Algorithms
  */
-
-
+#include <iostream>
+using namespace std;
 struct Node {
     int data;
     Node* prev;
