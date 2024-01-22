@@ -60,7 +60,8 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 ## Lists
 | Category                             | Name                                      | Properties | Language | Source |
 | ------------------------------------ | ----------------------------------------- | ---------- | -------- | ------ |
-| Lists                                | Doubly linked list                        |            |          |        |
+| Lists                                | Doubly linked list                        |            |    C++      |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/doublyLinkedlist.cpp)    |
+| Lists                                | Doubly linked list                        |    smart pointer        |    C++      |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/doublyLinkedlist_smartptr.cpp)    |
 | Lists                                | Array list                                |            |          |        |
 | Lists                                | Linked list (Singly linked list)         |            |   C      | [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/singly_linked_list.c) |
 | Lists                                | Association list                         |            |          |        |
