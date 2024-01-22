@@ -50,6 +50,8 @@ public:
     void display_forward();
     void display_backward();
     void delete_node(T value);
+    bool addAll(const std::initializer_list<T>& elements);
+    bool addAll(int index, const std::initializer_list<T>& elements);
     // Other member functions can be added as needed
 };
 
@@ -138,6 +140,55 @@ void DoublyLinkedList<T>::delete_node(T value) {
     prevNode->next->prev = prevNode;
 }
 
+// Appending Elements: For appending, we simply iterate over the collection and use the existing push_back function.
+// The time complexity for addAll (appending) is O(n) where n is the number of elements in the collection.
+template<typename T>
+bool DoublyLinkedList<T>::addAll(const std::initializer_list<T>& elements) {
+    for (const auto& element : elements) {
+        push_back(element);
+    }
+    return true; // Always returns true as the list is always modified
+}
+
+
+
+// Inserting at a Position: For inserting at a specific position, we first navigate to the node at the given index, then insert each element from the collection after it.
+// The time complexity for addAll(int index, Collection<? extends E> c) is O(n + m) where n is the number of elements to reach the index and m is the number of elements in the collection.
+template<typename T>
+bool DoublyLinkedList<T>::addAll(int index, const std::initializer_list<T>& elements) {
+    if (index < 0) return false; // Invalid index
+
+    if (index == 0) {
+        for (auto it = elements.end(); it != elements.begin();) {
+            --it;
+            push_front(*it);
+        }
+        return true;
+    }
+
+    Node<T>* current = head.get();
+    for (int i = 0; i < index - 1 && current != nullptr; ++i) {
+        current = current->next.get();
+    }
+
+    if (current == nullptr) return false; // Index out of bounds
+
+    for (auto it = elements.begin(); it != elements.end(); ++it) {
+        std::unique_ptr<Node<T>> newNode = std::make_unique<Node<T>>(*it);
+        newNode->next = std::move(current->next);
+        if (newNode->next) {
+            newNode->next->prev = newNode.get();
+        } else {
+            tail = newNode.get();
+        }
+        newNode->prev = current;
+        current->next = std::move(newNode);
+        current = current->next.get();
+    }
+    return true;
+}
+
+
 
 
 template<typename T>
@@ -197,6 +248,31 @@ int main() {
 
     std::cout << "List after deletions: ";
     list.display_forward();
+    
+    // Test addAll at the end
+    std::cout << "Adding elements at the end:" << std::endl;
+    list.addAll({10, 20, 30});
+    list.display_forward(); // Expected: 10 20 30
 
+    // Test addAll at a specific position
+    std::cout << "\nAdding elements at position 1:" << std::endl;
+    list.addAll(1, {40, 50});
+    list.display_forward(); // Expected: 10 40 50 20 30
+
+    // Test addAll at the beginning
+    std::cout << "\nAdding elements at the beginning:" << std::endl;
+    list.addAll(0, {60, 70});
+    list.display_forward(); // Expected: 60 70 10 40 50 20 30
+
+    // Test addAll at the end (again)
+    std::cout << "\nAdding more elements at the end:" << std::endl;
+    list.addAll({80, 90});
+    list.display_forward(); // Expected: 60 70 10 40 50 20 30 80 90
+
+    // Test addAll at an invalid position (larger than list size)
+    std::cout << "\nTrying to add elements at an invalid position:" << std::endl;
+    bool result = list.addAll(20, {100, 110});
+    std::cout << "Operation successful: " << std::boolalpha << result << std::endl;
+    list.display_forward(); // Expected: No change in list
     return 0;
 }
