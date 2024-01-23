@@ -110,7 +110,7 @@ int main() {
             std::shared_ptr<int> value;  // Changed from int to std::shared_ptr<int>
             if (queue.dequeue(value)) {
                 // Handle dequeued value
-                std::cout << "Dequeued: " << *value << std::endl;  // Dereference the pointer to access the value
+                std::cout << "Thread 1: Dequeued: " << *value << std::endl;  // Dereference the pointer to access the value
             }
         }
     });
@@ -119,6 +119,7 @@ int main() {
     std::thread t2([&]() {
         for (int i = 0; i < 1000; ++i) {
             queue.enqueue(i);
+            std::cout << "Thread 2 : Equeued: " << i << std::endl;  // Dereference the pointer to access the value
         }
     });
 
