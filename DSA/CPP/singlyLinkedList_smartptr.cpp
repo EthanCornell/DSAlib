@@ -20,74 +20,82 @@
 #include <iostream>
 #include <memory>
 
+// Template class for a node in the linked list
 template<typename T>
 class Node {
 public:
-    T value;
-    std::unique_ptr<Node<T>> next;
-
-    Node(T val) : value(val), next(nullptr) {}
+    T value;  // Value stored in the node
+    std::unique_ptr<Node<T>> next;  // Unique pointer to the next node
+    Node(T val) : value(val), next(nullptr) {} // Constructor to initialize a node with a value; next is initialized as nullptr
 };
 
+// Template class for the linked list
 template<typename T>
 class LinkedList {
 private:
-    std::unique_ptr<Node<T>> head;
+    std::unique_ptr<Node<T>> head;  // Unique pointer to the head node of the list
 
 public:
+    // Constructor initializes the head as nullptr, indicating an empty list
     LinkedList() : head(nullptr) {}
 
+    // Function to add a node at the front of the list
     void pushFront(T value) {
-        auto newNode = std::make_unique<Node<T>>(value);
-        newNode->next = std::move(head);
-        head = std::move(newNode);
+        auto newNode = std::make_unique<Node<T>>(value); // Create a new node
+        newNode->next = std::move(head); // Move the current head to the next of new node
+        head = std::move(newNode); // Set the new node as the new head
     }
 
+    // Function to remove the front node of the list
     void popFront() {
-        if (head != nullptr) {
-            head = std::move(head->next);
+        if (head != nullptr) { // Check if the list is not empty
+            head = std::move(head->next); // Move the second node to become the new head
         }
     }
 
+    // Function to find a value in the list
     bool find(const T& value) {
-        Node<T>* current = head.get();
-        while (current != nullptr) {
-            if (current->value == value) {
-                return true;
+        Node<T>* current = head.get(); // Start with the head of the list
+        while (current != nullptr) { // Iterate until the end of the list
+            if (current->value == value) { // Check if the current node contains the value
+                return true; // Value found
             }
-            current = current->next.get();
+            current = current->next.get(); // Move to the next node
         }
-        return false;
+        return false; // Value not found
     }
 
+    // Function to remove the last node from the list
     void popBack() {
-        if (head == nullptr) {
+        if (head == nullptr) { // Check if the list is empty
+            return; // Nothing to pop
+        }
+        if (head->next == nullptr) { // Check if the list has only one node
+            head = nullptr; // Remove the only node
             return;
         }
-        if (head->next == nullptr) {
-            head = nullptr;
-            return;
+        Node<T>* current = head.get(); // Start with the head of the list
+        while (current->next->next != nullptr) { // Iterate until the second-last node
+            current = current->next.get(); // Move to the next node
         }
-        Node<T>* current = head.get();
-        while (current->next->next != nullptr) {
-            current = current->next.get();
-        }
-        current->next = nullptr;
+        current->next = nullptr; // Remove the last node
     }
 
+    // Function to clear the entire list
     void clear() {
-        while (head != nullptr) {
-            head = std::move(head->next);
+        while (head != nullptr) { // Iterate until the list is empty
+            head = std::move(head->next); // Continuously remove the head node
         }
     }
 
+    // Function to print all values in the list
     void printList() {
-        Node<T>* current = head.get();
-        while (current != nullptr) {
-            std::cout << current->value << " ";
-            current = current->next.get();
+        Node<T>* current = head.get(); // Start with the head of the list
+        while (current != nullptr) { // Iterate until the end of the list
+            std::cout << current->value << " "; // Print the value of the current node
+            current = current->next.get(); // Move to the next node
         }
-        std::cout << std::endl;
+        std::cout << std::endl; // Print a newline at the end
     }
 };
 

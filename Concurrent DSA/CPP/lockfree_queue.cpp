@@ -27,7 +27,6 @@ class LockFreeQueue {
     struct Node {
         std::shared_ptr<T> data;
         std::atomic<Node*> next;  // Changed to atomic
-
         Node(T value) : data(std::make_shared<T>(value)), next(nullptr) {}
     };
 

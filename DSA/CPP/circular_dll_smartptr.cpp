@@ -24,7 +24,6 @@ struct Node {
     T data;
     std::unique_ptr<Node<T>> next;
     Node<T>* prev;
-
     Node(T value) : data(value), next(nullptr), prev(nullptr) {}
 };
 
