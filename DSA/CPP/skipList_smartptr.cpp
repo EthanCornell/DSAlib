@@ -3,6 +3,7 @@
 #include <memory>
 #include <limits>
 #include <cstdlib>
+#include <climits>
 
 #define MAX_LEVEL 6
 
