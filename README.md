@@ -139,7 +139,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 Ethan Huang
 
 ## License
-This repository is open-source and available under the [GPLv3 License](LICENSE.md). Feel free to use, modify, and distribute the code as per the terms of the license.
+This repository is open-source and available under the [GPLv3 License](LICENSE.md).
 
 Happy coding!
 
