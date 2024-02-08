@@ -100,7 +100,8 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | Tree     | Radix tree     |            |          |        |
 | Tree     | Suffix tree    |            |          |        |
 | Tree     | Suffix array   |            |          |        |
-| Tree     | Trie           |            |          |        |
+| Tree     | Trie           |            |    C++      |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/trie.cpp)     |
+| Tree     | Trie           |    Hash Array Mapped Trie        |   C++       |  [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/hamt.cpp)      |
 | Tree     | Segment tree   |            |    C++      |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/SegmentTree.cpp)    |
 
 ##
