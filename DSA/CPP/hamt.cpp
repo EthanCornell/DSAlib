@@ -16,7 +16,8 @@
  * Author: I-Hsuan (Ethan) Huang
  * Email: ih246@cornell.edu
  */
-// Hash Array Mapped Trie (HAMT)
+// Hash Array Mapped Trie (HAMT) 
+//https://en.wikipedia.org/wiki/Hash_array_mapped_trie
 #include <iostream>
 #include <memory>
 #include <unordered_map>
