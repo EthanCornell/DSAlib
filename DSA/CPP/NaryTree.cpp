@@ -62,6 +62,7 @@ public:
         return nullptr;
     }
     
+    // deleteNode Function: This function checks if the node to be deleted is the root. If so, it deletes the entire tree. Otherwise, it calls deleteNodeHelper to find and delete the node with the specified data.
     // Function to delete a node
     void deleteNode(int data) {
         if (!root) return;
@@ -73,6 +74,7 @@ public:
         deleteNodeHelper(root, data);
     }
 
+    // deleteSubTree Helper Function: Recursively deletes a node and all its descendants, effectively removing a subtree from the tree.
     // Helper function for deleteNode to recursively delete a subtree
     void deleteSubTree(Node* node) {
         for (auto child : node->children) {
@@ -81,6 +83,8 @@ public:
         delete node;
     }
 
+
+    // deleteNodeHelper Helper Function: Searches for the node to be deleted. Once found, it deletes the node and its descendants, then removes the null pointer from the parent's children vector.
     // Helper function to find and delete a node
     void deleteNodeHelper(Node* node, int data) {
         for (auto& child : node->children) {
@@ -95,6 +99,8 @@ public:
         }
     }
 
+
+    // traverseDFS Function: Performs a depth-first search traversal of the tree, printing each node's data. This function demonstrates how to visit each node in the tree.
     // Function to perform DFS traversal
     void traverseDFS(Node* node) {
         if (!node) return;
@@ -104,6 +110,7 @@ public:
         }
     }
 
+    // printTree Function: A public function that initiates the DFS traversal from the root to print the entire tree.
     // Function to print the tree
     void printTree() {
         traverseDFS(root);
@@ -132,3 +139,9 @@ int main() {
 
     return 0;
 }
+
+
+// Time Complexity:
+// Delete Node: O(n), as it may need to traverse the entire tree to find the node to delete.
+// DFS Traverse/Print: O(n), as it visits each node exactly once.
+// Space Complexity: O(h) for recursive calls stack space, where h is the height of the tree. This is also the space complexity for deleting a node due to the recursive deletion of a subtree.
