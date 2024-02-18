@@ -230,7 +230,14 @@ void resizeRingBuffer(RingBuffer* rb, size_t newSize) {
     rb->tail = 0; // Reset tail if buffer is not full, adjust if necessary
 }
 
+// initialize(size): Allocates memory for a RingBuffer and its internal buffer array. Sets the head, tail, and count to 0.
+// insert(rb, value): Checks if the buffer is full. If not, inserts the value at the head position, updates the head position, and increments the count.
+// remove(rb): Checks if the buffer is empty. If not, retrieves the value at the tail position, updates the tail position, and decrements the count.
 
+// Time Complexity:
+// Insertion: O(1)
+// Removal: O(1)
+// Space Complexity: O(n), where n is the size of the buffer.
 
 int main() {
     RingBuffer *rb = initialize(5); // Create a ring buffer of size 5
@@ -294,7 +301,7 @@ int main() {
     flush(rb);
     printf("After flushing, buffer is %s\n", is_empty(rb) ? "empty" : "not empty");
     printRingBuffer(rb); // Should print "Ring Buffer: Empty"
-            memoryUsage = calculateMemoryUsage(rb);
+    memoryUsage = calculateMemoryUsage(rb);
     printf("Memory usage after flushing: %zu bytes\n", memoryUsage);
 
     // Insert after flushing to verify buffer can still be used
@@ -349,8 +356,7 @@ int main() {
     // Cleanup
     flush(rb);
 
-    
-    
+
     // test copy on write
     // Initialize a ring buffer with some data
     
