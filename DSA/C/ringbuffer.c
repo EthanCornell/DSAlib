@@ -75,7 +75,6 @@ function remove(RingBuffer):
     tail = (tail + 1) % size
     Decrement count
     return value
-
 */
 
 RingBuffer* initialize(size_t size) {
