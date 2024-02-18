@@ -94,22 +94,24 @@ void* ringBufferRemove(RingBuffer *rb) {
 }
 
 
-void printRingBuffer(RingBuffer *rb) {
-    printf("Ring Buffer: ");
-    if (rb->count == 0) {
-        printf("Empty\n");
-        return;
-    }
-    int i = rb->tail;
-    do {
-        int* value = (int*)rb->buffer[i]; // Correctly cast the void pointer to an int pointer
-        printf("%d ", *value); // Dereference the int pointer to print the value
-        i = (i + 1) % rb->size;
-    } while (i != rb->head);
-    printf("\n");
+// Function to check if the ring buffer is empty
+bool is_empty(RingBuffer *rb) {
+    return rb->count == 0;
 }
 
+// Function to check if the ring buffer is full
+bool is_full(RingBuffer *rb) {
+    return rb->count == rb->size;
+}
 
+// Function to flush (clear) the ring buffer
+void flush(RingBuffer *rb) {
+    while (!is_empty(rb)) {
+        void* removedElement = ringBufferRemove(rb); // Remove elements and free memory
+        // No need to explicitly call free here since it's done in ringBufferRemove
+    }
+    rb->head = rb->tail = rb->count = 0; // Reset the buffer indices and count
+}
 
 bool search(RingBuffer *rb, int query) {
     if (rb->count == 0) {
@@ -127,6 +129,26 @@ bool search(RingBuffer *rb, int query) {
 }
 
 
+void printRingBuffer(RingBuffer *rb) {
+    printf("Ring Buffer: ");
+    if (rb->count == 0) {
+        printf("Empty\n");
+        return;
+    }
+    int i = rb->tail;
+    do {
+        int* value = (int*)rb->buffer[i]; // Correctly cast the void pointer to an int pointer
+        printf("%d ", *value); // Dereference the int pointer to print the value
+        i = (i + 1) % rb->size;
+    } while (i != rb->head);
+    printf("\n");
+}
+
+
+
+
+
+
 // initialize(size): Allocates memory for a RingBuffer and its internal buffer array. Sets the head, tail, and count to 0.
 // insert(rb, value): Checks if the buffer is full. If not, inserts the value at the head position, updates the head position, and increments the count.
 // remove(rb): Checks if the buffer is empty. If not, retrieves the value at the tail position, updates the tail position, and decrements the count.
@@ -139,6 +161,9 @@ bool search(RingBuffer *rb, int query) {
 int main() {
     RingBuffer *rb = initialize(5); // Create a ring buffer of size 5
 
+    // Test is_empty on a new buffer
+    printf("Buffer is %s\n", is_empty(rb) ? "empty" : "not empty");
+
     // Insert elements and print
     insert(rb, 1); printRingBuffer(rb);
     insert(rb, 2); printRingBuffer(rb);
@@ -147,10 +172,12 @@ int main() {
     insert(rb, 4); printRingBuffer(rb);
     insert(rb, 5); printRingBuffer(rb);
     
+    // Test is_full after filling the buffer
+    printf("Buffer is %s\n", is_full(rb) ? "full" : "not full");
+
     // Insert into a full buffer to see the message
     insert(rb, 6); printRingBuffer(rb); // Buffer is full
-    
-    
+
     // Search for elements
     int searchFor = 3;
     if (search(rb, searchFor)) {
@@ -167,14 +194,26 @@ int main() {
         printf("Element %d not found in the ring buffer.\n", searchFor);
     }
 
+    // Test flush function
+    flush(rb);
+    printf("After flushing, buffer is %s\n", is_empty(rb) ? "empty" : "not empty");
+    printRingBuffer(rb); // Should print "Ring Buffer: Empty"
+
+    // Insert after flushing to verify buffer can still be used
+    insert(rb, 7); printRingBuffer(rb);
+
     // Remove all elements and print each time
     while (rb->count > 0) {
         ringBufferRemove(rb);
         printRingBuffer(rb);
     }
 
+    // Test is_empty after removing all elements
+    printf("After removal, buffer is %s\n", is_empty(rb) ? "empty" : "not empty");
+
     // Cleanup
     free(rb->buffer);
     free(rb);
     return 0;
 }
+
