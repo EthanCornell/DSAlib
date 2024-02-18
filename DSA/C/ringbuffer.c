@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <stdbool.h> // For using bool type
 #include <assert.h>
+
 typedef struct {
     int data;
     int refCount;
@@ -149,7 +150,6 @@ bool search(RingBuffer *rb, int query) {
     return false; // Element not found
 }
 
-
 void printRingBuffer(RingBuffer *rb) {
     printf("Ring Buffer: ");
     if (rb->count == 0) {
@@ -164,8 +164,6 @@ void printRingBuffer(RingBuffer *rb) {
     } while (i != rb->head);
     printf("\n");
 }
-
-
 
 // New function to calculate current memory usage
 size_t calculateMemoryUsage(RingBuffer *rb) {
