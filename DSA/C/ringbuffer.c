@@ -361,7 +361,7 @@ int main() {
     // Initialize a ring buffer with some data
     
     // Assuming rb is already initialized and used
-    // resizeRingBuffer(rb, 10);
+    resizeRingBuffer(rb, 10);
 
     for (int i = 0; i < 5; ++i) {
         insert(rb, i);
