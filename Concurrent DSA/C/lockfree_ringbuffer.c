@@ -153,8 +153,6 @@ void* thread_modify(void* arg) {
     return NULL;
 }
 
-
-
 // Cleanup function for RingBuffer
 void cleanupRingBuffer(RingBuffer *rb) {
     pthread_mutex_destroy(&rb->mutex);
@@ -168,7 +166,6 @@ void cleanupRingBuffer(RingBuffer *rb) {
     free(rb->buffer);
     free(rb);
 }
-
 
 // Note: This implementation simplifies and omits some critical aspects of lock-free programming,
 // such as safe memory reclamation (e.g., hazard pointers for managing `free` operations safely).
