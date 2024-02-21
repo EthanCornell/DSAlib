@@ -17,14 +17,12 @@
  * Email: ih246@cornell.edu
  */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdatomic.h>
 #include <stdbool.h>
 #include <pthread.h> // Include pthread header for mutex
 #include "ring_buffer.h"
-
 
 // Initialize the ring buffer
 RingBuffer* initialize(size_t size) {
@@ -75,10 +73,6 @@ void insert(RingBuffer *rb, int value) {
     pthread_mutex_unlock(&rb->mutex); // Release the lock.
 }
 
-
-// Note: The actual implementation needs to handle memory management carefully,
-// especially when removing items and managing the reference count.
-
 // Function to check if the ring buffer is empty
 bool is_empty(RingBuffer *rb) {
     int head = atomic_load_explicit(&rb->head, memory_order_acquire);
@@ -93,6 +87,8 @@ bool is_full(RingBuffer *rb) {
     return next_head == tail;
 }
 
+// Note: The actual implementation needs to handle memory management carefully,
+// especially when removing items and managing the reference count.
 // Function to remove an item from the ring buffer, with added checks
 CoWData* ringBufferRemove(RingBuffer *rb) {
     pthread_mutex_lock(&rb->mutex); // Acquire the lock to ensure exclusive access to the buffer.
@@ -121,10 +117,6 @@ CoWData* ringBufferRemove(RingBuffer *rb) {
     
     return data; // Return the removed data.
 }
-
-
-
-
 
 // Function to modify data with Copy-On-Write semantics
 void modifyData(RingBuffer *rb, int index, int newValue) {
