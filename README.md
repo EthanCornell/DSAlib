@@ -131,7 +131,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | -------- | ---- | ---------- | -------- | ------ |
 | DP    | Edit Distance Problem  |            |          |        |
 
-## Algorithm
+## Matrix Multiplication Algorithms
 | Category | Name                  | Properties | Language | Source |
 | -------- | --------------------- | ---------- | -------- | ------ |
 | Matrix Multiplication   | Basic                 |            |     C++     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/MatrixMultiply.cpp)    |
