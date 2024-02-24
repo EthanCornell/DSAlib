@@ -139,6 +139,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | Matrix Multiplication   | Strassen's Algorithm                 |            |      C++    |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/MatrixMultiply.cpp)      |
 | Matrix Multiplication   | Parallel                 |            |      C++    |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/MatrixMultiply.cpp)      |
 | Matrix Multiplication   | Block-wise (Cannon's style)                 |            |      C++    |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/MatrixMultiply.cpp)      |
+| Matrix Multiplication   | Shared-memory parallelism (Fork–join model)                 |            |      C++    |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/MatrixMultiply.cpp)      |
 
 ## Usage
 - Each data structure and algorithm is organized into separate folders for easy navigation and usage.
