@@ -33,6 +33,7 @@ method_patterns = {
     "Strassen": r"Strassen: (\d+) ms",
     "Parallel": r"Parallel: (\d+) ms",
     "Block-wise": r"Block-wise: (\d+) ms",
+    "Fork-join model in shared-memory": r"Fork-join model in shared-memory: (\d+) ms",
 }
 
 # Initialize data structure to hold execution times

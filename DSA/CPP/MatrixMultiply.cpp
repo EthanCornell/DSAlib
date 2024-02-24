@@ -182,7 +182,7 @@ vector<vector<int>> strassenMultiply(const vector<vector<int>>& A, const vector<
 }
 
 
-// 4.  parallel matrix multiplication
+// 4.  parallel basic matrix multiplication
 // Function to multiply two matrices in parallel using OpenMP
 vector<vector<int>> parallelMatrixMultiply(const vector<vector<int>>& matrix1, const vector<vector<int>>& matrix2) {
     if (matrix1.empty() || matrix2.empty()) return {};
@@ -235,6 +235,98 @@ vector<vector<int>> blockWiseMultiply(const vector<vector<int>>& A, const vector
         }
     }
 
+    return C;
+}
+
+
+
+// 6. matrix multiplication using the fork-join model in shared-memory parallelism
+// Helper function to create a submatrix
+vector<vector<int>> getSubmatrix(const vector<vector<int>>& matrix, int rowStart, int colStart, int size) {
+    vector<vector<int>> submatrix(size, vector<int>(size, 0));
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            submatrix[i][j] = matrix[rowStart + i][colStart + j];
+        }
+    }
+    return submatrix;
+}
+
+// Helper function to add matrices A and B, store result in C
+void addMatrices(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int size) {
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            C[i][j] = A[i][j] + B[i][j];
+        }
+    }
+}
+
+// Recursive function to multiply matrices A and B, store result in C
+void multiplyRecursive(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int size) {
+    if (size == 1) {
+        C[0][0] = A[0][0] * B[0][0];
+    } else {
+        int newSize = size / 2;
+        vector<vector<int>> A11 = getSubmatrix(A, 0, 0, newSize);
+        vector<vector<int>> A12 = getSubmatrix(A, 0, newSize, newSize);
+        vector<vector<int>> A21 = getSubmatrix(A, newSize, 0, newSize);
+        vector<vector<int>> A22 = getSubmatrix(A, newSize, newSize, newSize);
+        vector<vector<int>> B11 = getSubmatrix(B, 0, 0, newSize);
+        vector<vector<int>> B12 = getSubmatrix(B, 0, newSize, newSize);
+        vector<vector<int>> B21 = getSubmatrix(B, newSize, 0, newSize);
+        vector<vector<int>> B22 = getSubmatrix(B, newSize, newSize, newSize);
+
+        vector<vector<int>> C11(newSize, vector<int>(newSize, 0));
+        vector<vector<int>> C12(newSize, vector<int>(newSize, 0));
+        vector<vector<int>> C21(newSize, vector<int>(newSize, 0));
+        vector<vector<int>> C22(newSize, vector<int>(newSize, 0));
+        vector<vector<int>> temp1(newSize, vector<int>(newSize, 0));
+        vector<vector<int>> temp2(newSize, vector<int>(newSize, 0));
+
+        #pragma omp parallel sections
+        {
+            #pragma omp section
+            {
+                multiplyRecursive(A11, B11, C11, newSize);
+                multiplyRecursive(A12, B21, temp1, newSize);
+                addMatrices(C11, temp1, C11, newSize);
+            }
+            #pragma omp section
+            {
+                multiplyRecursive(A11, B12, C12, newSize);
+                multiplyRecursive(A12, B22, temp2, newSize);
+                addMatrices(C12, temp2, C12, newSize);
+            }
+            #pragma omp section
+            {
+                multiplyRecursive(A21, B11, C21, newSize);
+                multiplyRecursive(A22, B21, temp1, newSize);
+                addMatrices(C21, temp1, C21, newSize);
+            }
+            #pragma omp section
+            {
+                multiplyRecursive(A21, B12, C22, newSize);
+                multiplyRecursive(A22, B22, temp2, newSize);
+                addMatrices(C22, temp2, C22, newSize);
+            }
+        }
+
+        // Combine the results into C
+        for (int i = 0; i < newSize; ++i) {
+            for (int j = 0; j < newSize; ++j) {
+                C[i][j] = C11[i][j];
+                C[i][j + newSize] = C12[i][j];
+                C[i + newSize][j] = C21[i][j];
+                C[i + newSize][j + newSize] = C22[i][j];
+            }
+        }
+    }
+}
+
+vector<vector<int>> sharedMemoryMultiply(const vector<vector<int>>& A, const vector<vector<int>>& B) {
+    int n = A.size(); // Assuming A and B are square and of equal size.
+    vector<vector<int>> C(n, vector<int>(n, 0)); // Initialize the result matrix.
+    multiplyRecursive(A, B, C, n);
     return C;
 }
 
@@ -297,7 +389,8 @@ vector<vector<int>> generateRandomMatrix(int rows, int cols) {
 
 // int main() {
 //     vector<int> sizes = {200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000};
-//     
+    
+    
 //     for (int size : sizes) {
 //         cout << "Matrix size: " << size << "x" << size << endl;
 
@@ -352,6 +445,16 @@ vector<vector<int>> generateRandomMatrix(int rows, int cols) {
 //         stop = high_resolution_clock::now();
 //         timings.emplace_back("Block-wise: ", duration_cast<milliseconds>(stop - start).count());
 
+
+//         // 6. Shared-memory parallelism (Fork–join model) Matrix Multiplication
+//         // Memory Usage: Very High (similar to cache-friendly method)
+//         // Additional Operations: Higher
+//         // Cache Utilization:  (optimized block-wise access pattern)
+//         start = high_resolution_clock::now();
+//         auto C6 = sharedMemoryMultiply(A, B);
+//         stop = high_resolution_clock::now();
+//         timings.emplace_back("Fork-join model in shared-memory: ", duration_cast<milliseconds>(stop - start).count());
+
 //         // Sort and print timings
 //         sort(timings.begin(), timings.end(), [](const pair<string, long long>& a, const pair<string, long long>& b) {
 //             return a.second < b.second;
@@ -367,9 +470,13 @@ vector<vector<int>> generateRandomMatrix(int rows, int cols) {
 //     return 0;
 // }
 
+
+// For python test
 int main() {
-    vector<int> sizes = {200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000};
-    for (int size : sizes) {
+    // vector<int> sizes = {200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000};
+    
+    // for (int size : sizes) {
+    for (int size = 5; size < 200; size+=10) {
         cout << "Matrix size: " << size << "x" << size << endl;
 
         vector<vector<int>> A = generateRandomMatrix(size, size);
@@ -404,6 +511,12 @@ int main() {
         auto C5 = blockWiseMultiply(A, B);
         stop = high_resolution_clock::now();
         cout << "Block-wise: " << duration_cast<milliseconds>(stop - start).count() << " ms\n";
+
+        // 6. Shared-memory parallelism (Fork–join model)
+        start = high_resolution_clock::now();
+        auto C6 = sharedMemoryMultiply(A, B);
+        stop = high_resolution_clock::now();
+        cout << "Fork-join model in shared-memory: " << duration_cast<milliseconds>(stop - start).count() << " ms\n";
 
         cout << endl;
     }
