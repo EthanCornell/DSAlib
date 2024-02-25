@@ -16,12 +16,10 @@
  * Author: I-Hsuan (Ethan) Huang
  * Email: ih246@cornell.edu
  */
+
 //  Quadratic Probing and Double Hashing
-typedef struct HashTable {
-    HashEntry* entries;
-    int size;
-    int numItems; // Track the number of occupied items
-} HashTable;
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef enum EntryStatus {
     EMPTY, OCCUPIED, DELETED
@@ -31,6 +29,15 @@ typedef struct HashEntry {
     int key;
     EntryStatus status;
 } HashEntry;
+
+typedef struct HashTable {
+    HashEntry* entries;
+    int size;
+    int numItems; // Track the number of occupied items
+} HashTable;
+
+
+
 
 
 #define LINEAR_PROBING 0
@@ -47,7 +54,8 @@ int linearProbing(int key, int i, int size) {
 }
 
 // Quadratic Probing
-int quadraticProbing(int key, int i, int size, int c1, int c2) {
+int quadraticProbing(int key, int i, int size) {
+    int c1 = 1, c2 = 3; // Example constants
     return (hashFunction(key, size) + c1 * i + c2 * i * i) % size;
 }
 
@@ -65,6 +73,19 @@ int doubleHashing(int key, int i, int size) {
 }
 
 
+// Initialize HashTable
+HashTable* initializeHashTable(int size) {
+    HashTable* table = (HashTable*)malloc(sizeof(HashTable));
+    table->entries = (HashEntry*)calloc(size, sizeof(HashEntry));
+    table->size = size;
+    table->numItems = 0;
+    for (int i = 0; i < size; i++) {
+        table->entries[i].status = EMPTY;
+    }
+    return table;
+}
+
+
 void hashTableInsert(HashTable* table, int key, int method) {
     if (table->numItems == table->size) {
         // Table is full
@@ -75,7 +96,7 @@ void hashTableInsert(HashTable* table, int key, int method) {
     do {
         // Select probing method
         if (method == QUADRATIC_PROBING) {
-            index = quadraticProbing(key, i, table->size, 1, 3); // Example constants
+            index = quadraticProbing(key, i, table->size); // Example constants
         } else if (method == DOUBLE_HASHING) {
             index = doubleHashing(key, i, table->size);
         } else {
@@ -94,23 +115,25 @@ void hashTableInsert(HashTable* table, int key, int method) {
 }
 
 
-int search(HashTable* table, int key, int (*probingFunction)(int, int, int), int c1, int c2) {
+// Updated search function to use a generic probing function without c1, c2 parameters
+int search(HashTable* table, int key, int (*probingFunction)(int, int, int)) {
     for (int i = 0; i < table->size; i++) {
-        int index = probingFunction(key, i, table->size, c1, c2);
+        int index = probingFunction(key, i, table->size);
         if (table->entries[index].status == EMPTY) {
             return -1; // Key not found
         }
         if (table->entries[index].status == OCCUPIED && table->entries[index].key == key) {
             return index; // Key found
         }
-        // Note: If status is DELETED, we keep probing
+        // If status is DELETED, we keep probing
     }
     return -1; // Key not found after full table scan
 }
 
-void delete(HashTable* table, int key, int (*probingFunction)(int, int, int), int c1, int c2) {
+// Updated delete function to use a generic probing function without c1, c2 parameters
+void delete(HashTable* table, int key, int (*probingFunction)(int, int, int)) {
     for (int i = 0; i < table->size; i++) {
-        int index = probingFunction(key, i, table->size, c1, c2);
+        int index = probingFunction(key, i, table->size);
         if (table->entries[index].status == EMPTY) {
             return; // Key not found, end search
         }
@@ -118,6 +141,37 @@ void delete(HashTable* table, int key, int (*probingFunction)(int, int, int), in
             table->entries[index].status = DELETED; // Mark as deleted
             return;
         }
-        // Note: If status is DELETED, we keep probing
+        // If status is DELETED, we keep probing
     }
+}
+
+
+
+// Main function to test the hash table
+int main() {
+    int tableSize = 10;
+    HashTable* hashTable = initializeHashTable(tableSize);
+
+    // Insert keys using different methods
+    hashTableInsert(hashTable, 5, LINEAR_PROBING);
+    hashTableInsert(hashTable, 15, QUADRATIC_PROBING);
+    hashTableInsert(hashTable, 25, DOUBLE_HASHING);
+
+    // Correctly use the search and delete functions
+    int keyToSearch = 15;
+
+    // Search for a key
+    int searchResult = search(hashTable, keyToSearch, quadraticProbing);
+    printf("Search for key %d: %s\n", keyToSearch, searchResult != -1 ? "Found" : "Not Found");
+
+    // Delete a key
+    delete(hashTable, keyToSearch, quadraticProbing);
+    searchResult = search(hashTable, keyToSearch, quadraticProbing);
+    printf("Search for key %d after deletion: %s\n", keyToSearch, searchResult != -1 ? "Found" : "Not Found");
+
+    // Cleanup
+    free(hashTable->entries);
+    free(hashTable);
+
+    return 0;
 }
