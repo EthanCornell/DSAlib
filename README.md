@@ -150,14 +150,15 @@ Ethan Huang
 ## License
 This repository is open-source and available under the [GPLv3 License](LICENSE.md).
 
-Happy coding!
-
 ## Reference
 
 Here, you can find additional resources and references related to the data structures and algorithms covered in this repository. This section will help you dive deeper into the topics and enhance your understanding.
 
 - [Simple, Fast, and Practical Non-Blocking and Blocking Concurrent Queue Algorithms](https://www.cs.rochester.edu/~scott/papers/1996_PODC_queues.pdf)
 - [Implementing Lock-Free Queues](https://people.cs.pitt.edu/~jacklange/teaching/cs2510-f12/papers/implementing_lock_free.pdf)
+- https://github.com/efficient/libcuckoo/tree/master
+- [Cuckoo Filter: Practically Better Than Bloom](https://www.cs.cmu.edu/~dga/papers/cuckoo-conext2014.pdf)
+- https://en.wikipedia.org/wiki/Concurrent_hash_table
 
 Feel free to explore these resources to further enrich your knowledge in this domain.
 
