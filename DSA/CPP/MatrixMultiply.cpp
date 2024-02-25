@@ -388,10 +388,8 @@ vector<vector<int>> generateRandomMatrix(int rows, int cols) {
 
 
 // int main() {
-//     vector<int> sizes = {200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000};
-    
-    
-//     for (int size : sizes) {
+
+//     for (int size = 200; size <= 2000; size+=200 ) {
 //         cout << "Matrix size: " << size << "x" << size << endl;
 
 //         vector<vector<int>> A = generateRandomMatrix(size, size);
@@ -473,10 +471,8 @@ vector<vector<int>> generateRandomMatrix(int rows, int cols) {
 
 // For python test
 int main() {
-    // vector<int> sizes = {200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000};
     
-    // for (int size : sizes) {
-    for (int size = 5; size < 200; size+=10) {
+    for (int size = 100; size <= 1100; size+=200) {
         cout << "Matrix size: " << size << "x" << size << endl;
 
         vector<vector<int>> A = generateRandomMatrix(size, size);
