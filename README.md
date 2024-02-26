@@ -141,7 +141,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | Matrix Multiplication   | Block-wise (Cannon's style)                 |            |      C++    |    [Source Link]()      |
 | Matrix Multiplication   | Shared-memory parallelism (Fork–join model)                 |            |      C++    |    [Source Link]()      |
 
-## Sorting Algorithm
+## Sorting Algorithms
 | Category | Name | Properties | Language | Source |
 | -------- | ---- | ---------- | -------- | ------ |
 |     |   |            |          |        |
