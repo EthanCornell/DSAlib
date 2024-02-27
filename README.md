@@ -40,31 +40,31 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 ## Stack
 | Category | Name                  | Properties | Language | Source |
 | -------- | --------------------- | ---------- | -------- | ------ |
-| Stack   | Stack                 |            |     C     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/stack.c)    |
-| Stack   | Stack                 |     Singlely List based       |     C     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/liStack.c)    |
-| Stack   | Stack                 |     with smart pointer       |     C++     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/stack.cpp)    |
+| Stack   | Stack                 |            |     C     |    [Source Link]()    |
+| Stack   | Stack                 |     Singlely List based       |     C     |    [Source Link]()    |
+| Stack   | Stack                 |     with smart pointer       |     C++     |    [Source Link]()    |
 
 ## Queue
 | Category | Name                  | Properties | Language | Source |
 | -------- | --------------------- | ---------- | -------- | ------ |
-| Queue   | Queue                 |            |      C    |   [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/queue.c)     |
-| Queue   | Queue                 |      Non-Blocking Concurrent Queue     |      C++    |   [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/Concurrent%20DSA/CPP/lockfree_queue.cpp)     |
-| Queue   | Deque                 |            |      C    |   [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/deque.c)     |
+| Queue   | Queue                 |            |      C    |   [Source Link]()     |
+| Queue   | Queue                 |      Non-Blocking Concurrent Queue     |      C++    |   [Source Link]()     |
+| Queue   | Deque                 |            |      C    |   [Source Link]()     |
 
 ## Set & Map
 | Category | Name                  | Properties | Language | Source |
 | -------- | --------------------- | ---------- | -------- | ------ |
-| Set & Map   | Set                 |            |     C     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/set.c)    |
+| Set & Map   | Set                 |            |     C     |    [Source Link]()    |
 | Set & Map   | Map                 |            |          |        |
 
 ## Lists
 | Category                             | Name                                      | Properties | Language | Source |
 | ------------------------------------ | ----------------------------------------- | ---------- | -------- | ------ |
-| Lists                                | Doubly linked list                        |            |    C++      |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/doublyLinkedlist.cpp)    |
-| Lists                                | Doubly linked list                        |    smart pointer        |    C++      |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/doublyLinkedlist_smartptr.cpp)    |
+| Lists                                | Doubly linked list                        |            |    C++      |    [Source Link]()    |
+| Lists                                | Doubly linked list                        |    smart pointer        |    C++      |    [Source Link]()    |
 | Lists                                | Array list                                |            |          |        |
-| Lists                                | Linked list (Singly linked list)         |            |   C      | [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/C/singly_linked_list.c) |
-| Lists                                | Linked list (Singly linked list)         |     smart pointer       |   C++      | [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/singlyLinkedList_smartptr.cpp) |
+| Lists                                | Linked list (Singly linked list)         |            |   C      | [Source Link]() |
+| Lists                                | Linked list (Singly linked list)         |     smart pointer       |   C++      | [Source Link]() |
 | Lists                                | Association list                         |            |          |        |
 | Lists                                | Self-organizing list                     |            |          |        |
 | Lists                                | Skip list                                |            |          |        |
@@ -81,7 +81,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | Category | Name           | Properties | Language | Source |
 | -------- | -------------- | ---------- | -------- | ------ |
 | Tree     | Binary Tree    |            |          |        |
-| Tree     | Red Black Tree |            |    C++      |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/RBTree.cpp)    |
+| Tree     | Red Black Tree |            |    C++      |    [Source Link]()    |
 | Tree     | AVL Tree       |            |          |        |
 | Tree     | B+ Tree        |            |          |        |
 | Tree     | K-D Tree       |            |          |        |
@@ -100,9 +100,9 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 | Tree     | Radix tree     |            |          |        |
 | Tree     | Suffix tree    |            |          |        |
 | Tree     | Suffix array   |            |          |        |
-| Tree     | Trie           |            |    C++      |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/trie.cpp)     |
-| Tree     | Trie           |    Hash Array Mapped Trie        |   C++       |  [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/hamt.cpp)      |
-| Tree     | Segment tree   |            |    C++      |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/SegmentTree.cpp)    |
+| Tree     | Trie           |            |    C++      |    [Source Link]()     |
+| Tree     | Trie           |    Hash Array Mapped Trie        |   C++       |  [Source Link]()      |
+| Tree     | Segment tree   |            |    C++      |    [Source Link]()    |
 
 ##
 
@@ -110,7 +110,7 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 ## Graph
 | Category | Name | Properties | Language | Source |
 | -------- | ---- | ---------- | -------- | ------ |
-| Graph    | BFS  |     Concurrent BFS       |      C++    |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/Concurrent%20DSA/CPP/Concurrent_BFS.cpp)   |
+| Graph    | BFS  |     Concurrent BFS       |      C++    |    [Source Link]()   |
 | Graph    | BFS  |            |          |        |
 | Graph    | DFS  |            |          |        |
 
@@ -134,12 +134,17 @@ Welcome to the C/C++ Data Structures and Algorithms repository! Explore a divers
 ## Matrix Multiplication Algorithms
 | Category | Name                  | Properties | Language | Source |
 | -------- | --------------------- | ---------- | -------- | ------ |
-| Matrix Multiplication   | Basic                 |            |     C++     |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/MatrixMultiply.cpp)    |
-| Matrix Multiplication   | Cache Friendly                 |            |      C++    |   [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/MatrixMultiply.cpp)       |
-| Matrix Multiplication   | Strassen's Algorithm                 |            |      C++    |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/MatrixMultiply.cpp)      |
-| Matrix Multiplication   | Parallel                 |            |      C++    |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/MatrixMultiply.cpp)      |
-| Matrix Multiplication   | Block-wise (Cannon's style)                 |            |      C++    |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/MatrixMultiply.cpp)      |
-| Matrix Multiplication   | Shared-memory parallelism (Fork–join model)                 |            |      C++    |    [Source Link](https://github.com/EthanCornell/DSAlib/blob/main/DSA/CPP/MatrixMultiply.cpp)      |
+| Matrix Multiplication   | Basic                 |            |     C++     |    [Source Link]()    |
+| Matrix Multiplication   | Cache Friendly                 |            |      C++    |   [Source Link]()       |
+| Matrix Multiplication   | Strassen's Algorithm                 |            |      C++    |    [Source Link]()      |
+| Matrix Multiplication   | Parallel                 |            |      C++    |    [Source Link]()      |
+| Matrix Multiplication   | Block-wise (Cannon's style)                 |            |      C++    |    [Source Link]()      |
+| Matrix Multiplication   | Shared-memory parallelism (Fork–join model)                 |            |      C++    |    [Source Link]()      |
+
+## Sorting Algorithms
+| Category | Name | Properties | Language | Source |
+| -------- | ---- | ---------- | -------- | ------ |
+|     |   |            |          |        |
 
 ## Usage
 - Each data structure and algorithm is organized into separate folders for easy navigation and usage.
