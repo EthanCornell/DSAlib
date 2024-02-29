@@ -6,12 +6,6 @@
 #include <pthread.h>
 
 // Node structure with a fine-grained lock
-// typedef struct FGL_Node {
-//     int data;
-//     struct FGL_Node* next;
-//     pthread_mutex_t lock;
-// } FGL_Node;
-
 typedef struct FGL_Node {
     int data;
     struct FGL_Node* next;
