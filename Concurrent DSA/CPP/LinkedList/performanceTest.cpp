@@ -34,27 +34,27 @@ std::string getLinkedListTypeName();
 // Specialize for each linked list type
 template<>
 std::string getLinkedListTypeName<NaiveLinkedList<int>>() {
-    return "NaiveLinkedList";
+    return "Naive Linked List";
 }
 
 template<>
 std::string getLinkedListTypeName<NonBlockingLinkedList<int>>() {
-    return "NonBlockingLinkedList";
+    return "Non-Blocking Linked List";
 }
 
 template<>
 std::string getLinkedListTypeName<ConditionVariableLinkedList<int>>() {
-    return "ConditionVariableLinkedList";
+    return "Condition Variable Linked List";
 }
 
 template<>
 std::string getLinkedListTypeName<LockFreeLinkedList<int>>() {
-    return "LockFreeLinkedList";
+    return "Lock-Free Linked List";
 }
 
 template<>
 std::string getLinkedListTypeName<FineGrainedLinkedList<int>>() {
-    return "FineGrainedLinkedList";
+    return "Fine Grained Linked List";
 }
 
 template<typename LinkedListType>
@@ -102,3 +102,4 @@ int main() {
 
 
 // g++ -pg -std=c++17 -o pT performanceTest.cpp -lpthread -O3
+// valgrind --leak-check=full --show-leak-kinds=all ./pT

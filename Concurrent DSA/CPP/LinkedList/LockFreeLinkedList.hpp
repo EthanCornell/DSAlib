@@ -26,6 +26,7 @@
 #include <vector>
 #include <thread>
 #include <cassert>
+#include <mutex>
 #include "HazardPointer.hpp"
 
 template <typename T>

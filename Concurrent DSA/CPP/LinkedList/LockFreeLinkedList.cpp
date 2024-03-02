@@ -22,6 +22,7 @@
 #include <vector>
 #include <thread>
 #include <cassert>
+#include <mutex>
 #include "HazardPointer.hpp"
 
 template <typename T>
@@ -68,17 +69,17 @@ public:
         }
     }
 
-    bool search(T data)
-    {
-        Node *current = head.load(std::memory_order_acquire);
-        while (current != nullptr)
-        {
-            if (current->data == data)
-                return true;
-            current = current->next.load(std::memory_order_acquire);
-        }
-        return false;
-    }
+    // bool search(T data)
+    // {
+    //     Node *current = head.load(std::memory_order_acquire);
+    //     while (current != nullptr)
+    //     {
+    //         if (current->data == data)
+    //             return true;
+    //         current = current->next.load(std::memory_order_acquire);
+    //     }
+    //     return false;
+    // }
 
     // Safe search using hazard pointers
     bool searchSafe(T data)
@@ -99,47 +100,47 @@ public:
         return false; // Data not found
     }
 
-    bool remove(T data)
-    {
-        Node *current = head;
-        Node *prev = nullptr;
-        while (current != nullptr)
-        {
-            Node *next = current->next.load(std::memory_order_acquire);
-            if (current->data == data)
-            {
-                if (prev == nullptr)
-                {
-                    // Attempt to set head to next
-                    if (head.compare_exchange_strong(current, next, std::memory_order_release))
-                    {
-                        // Successful deletion
-                        delete current; // This is unsafe without proper memory reclamation!
-                        return true;
-                    }
-                }
-                else
-                {
-                    // Attempt to set prev->next to current->next
-                    if (prev->next.compare_exchange_strong(current, next, std::memory_order_release))
-                    {
-                        // Successful deletion
-                        delete current; // This is unsafe without proper memory reclamation!
-                        return true;
-                    }
-                }
-                // If CAS fails, start over from the head
-                current = head;
-                prev = nullptr;
-            }
-            else
-            {
-                prev = current;
-                current = next;
-            }
-        }
-        return false;
-    }
+    // bool remove(T data)
+    // {
+    //     Node *current = head;
+    //     Node *prev = nullptr;
+    //     while (current != nullptr)
+    //     {
+    //         Node *next = current->next.load(std::memory_order_acquire);
+    //         if (current->data == data)
+    //         {
+    //             if (prev == nullptr)
+    //             {
+    //                 // Attempt to set head to next
+    //                 if (head.compare_exchange_strong(current, next, std::memory_order_release))
+    //                 {
+    //                     // Successful deletion
+    //                     delete current; // This is unsafe without proper memory reclamation!
+    //                     return true;
+    //                 }
+    //             }
+    //             else
+    //             {
+    //                 // Attempt to set prev->next to current->next
+    //                 if (prev->next.compare_exchange_strong(current, next, std::memory_order_release))
+    //                 {
+    //                     // Successful deletion
+    //                     delete current; // This is unsafe without proper memory reclamation!
+    //                     return true;
+    //                 }
+    //             }
+    //             // If CAS fails, start over from the head
+    //             current = head;
+    //             prev = nullptr;
+    //         }
+    //         else
+    //         {
+    //             prev = current;
+    //             current = next;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     // Safe remove using hazard pointers
     bool removeSafe(T data)
@@ -229,12 +230,11 @@ void benchmark(size_t numThreads) {
 }
 
 int main() {
-    for (size_t numThreads = 1; numThreads <= 128; numThreads++) { // Doubling the number of threads in each step
+    for (size_t numThreads = 1; numThreads <= 4; numThreads*=2) { // Doubling the number of threads in each step
         benchmark(numThreads);
     }
     return 0;
 }
 
-
-
-// g++ -pg -std=c++11 -o LFLL LockFreeLinkedlist.cpp -lpthread -O3
+// g++ -pg -std=c++17 -o LFLL LockFreeLinkedlist.cpp -lpthread -O3
+// valgrind --leak-check=full --show-leak-kinds=all ./LFLL

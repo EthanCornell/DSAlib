@@ -35,7 +35,7 @@ for line in lines:
 
 # Determine the max number of threads to adjust figure size
 max_threads = max(len(metrics["threads"]) for metrics in data.values())
-fig_width = max(10, 1.5*max_threads)  # Base width of 10, increase by 1.5 for each thread beyond 8
+fig_width = max(10, max_threads)  # Base width of 10, increase by 1.5 for each thread beyond 8
 
 # Plotting with dynamic size based on data points
 plt.figure(figsize=(fig_width, 8))
@@ -45,7 +45,9 @@ for list_name, metrics in data.items():
 plt.title('Performance Comparison of Concurrent Linked Lists')
 plt.xlabel('Number of Threads')
 plt.ylabel('Operations per ms (Ops/ms)')
-# plt.xscale('log', base=2)
+plt.xscale('log', base=2)
+# plt.xscale('symlog') 
+
 plt.xticks(metrics["threads"], labels=metrics["threads"])
 plt.legend()
 plt.grid(True)
