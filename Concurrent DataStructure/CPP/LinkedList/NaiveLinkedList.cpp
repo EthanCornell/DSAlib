@@ -16,7 +16,7 @@
  * Author: I-Hsuan (Ethan) Huang
  * Email: ih246@cornell.edu
  */
-
+// NaiveLinkedList
 #include <mutex>
 #include <iostream>
 
@@ -82,6 +82,7 @@ public:
 };
 
 // g++ -pg -std=c++17 -o NLL NaiveLinkedList.cpp -lpthread -O3
+// valgrind --leak-check=full --show-leak-kinds=all ./NLL
 
 
 #include <chrono>
