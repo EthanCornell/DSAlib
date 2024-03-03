@@ -119,7 +119,7 @@ template <typename T>
 void HPManager<T>::reclaimRetiredNodes()
 {
     std::lock_guard<std::mutex> lock(retirementMutex);
-    log("Starting node reclamation");
+    // log("Starting node reclamation");
 
     for (auto it = retiredNodes.begin(); it != retiredNodes.end();)
     {
@@ -127,7 +127,7 @@ void HPManager<T>::reclaimRetiredNodes()
         {
             delete *it;                  // Safe to delete
             it = retiredNodes.erase(it); // Remove from the list
-            log("Node reclaimed");
+            // log("Node reclaimed");
         }
         else
         {
