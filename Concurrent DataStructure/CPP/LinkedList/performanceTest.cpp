@@ -26,6 +26,7 @@
 #include "ConditionVariableLinkedList.hpp"
 #include "NaiveLinkedList.hpp"
 #include "FineGrainedLinkedList.hpp"
+#include "NaiveLinkedList_smartptr.hpp"
 
 // Define a template function to get the name of the list type
 template<typename T>
@@ -35,6 +36,11 @@ std::string getLinkedListTypeName();
 template<>
 std::string getLinkedListTypeName<NaiveLinkedList<int>>() {
     return "Naive Linked List";
+}
+
+template<>
+std::string getLinkedListTypeName<NaiveLinkedList_ptr<int>>() {
+    return "Naive Linked List With Smart Pointer";
 }
 
 template<>
@@ -67,7 +73,7 @@ void performanceTestLinkedList() {
         std::vector<std::thread> threads;
         for (int i = 0; i < numThreads; ++i) {
             threads.emplace_back([&list]() {
-                for (int j = 0; j < 1000; ++j) {
+                for (int j = 0; j < 10000; ++j) {
                     list.insert(j);
                     list.search(j);
                     list.remove(j);
@@ -81,7 +87,7 @@ void performanceTestLinkedList() {
 
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double, std::milli> elapsed = end - start;
-        double opsPerMs = (numThreads * 3000) / elapsed.count();
+        double opsPerMs = (numThreads * 10000 *3) / elapsed.count();
 
         std::cout << "Threads: " << numThreads << ", Ops/ms: " << opsPerMs << ", Time: " << elapsed.count() << " ms" << std::endl;
     }
@@ -92,6 +98,7 @@ int main() {
 
     // Measure performance under concurrent access for each linked list implementation
     performanceTestLinkedList<NaiveLinkedList<int>>();
+    performanceTestLinkedList<NaiveLinkedList_ptr<int>>();
     performanceTestLinkedList<NonBlockingLinkedList<int>>();
     performanceTestLinkedList<ConditionVariableLinkedList<int>>();
     performanceTestLinkedList<LockFreeLinkedList<int>>();
@@ -101,5 +108,5 @@ int main() {
 }
 
 
-// g++ -pg -std=c++17 -o pT performanceTest.cpp -lpthread -O3
+// g++ -pg -std=c++17 -o pT performanceTest.cpp -lpthread -O3  && ./pT
 // valgrind --leak-check=full --show-leak-kinds=all ./pT

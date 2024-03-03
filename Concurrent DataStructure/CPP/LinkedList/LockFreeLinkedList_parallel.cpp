@@ -23,6 +23,7 @@
 #include <thread>
 #include <cassert>
 #include <mutex>
+#include <omp.h>
 #include "HazardPointer.hpp"
 
 template <typename T>
@@ -141,46 +142,94 @@ public:
         hpManager.releaseHazardPointer(hp);
         return deleted; // Return true if a node was removed
     }
+
+    void parallelInsert(LockFreeLinkedList<int> &list, const std::vector<int> &data)
+    {
+        #pragma omp parallel for
+        for (size_t i = 0; i < data.size(); ++i)
+        {
+            list.insert(data[i]);
+        }
+    }
+
+    std::vector<bool> parallelSearch(LockFreeLinkedList<int> &list, const std::vector<int> &searchValues)
+    {
+        std::vector<bool> results(searchValues.size(), false);
+
+        #pragma omp parallel for
+        for (size_t i = 0; i < searchValues.size(); ++i)
+        {
+            results[i] = list.searchSafe(searchValues[i]);
+        }
+
+        return results;
+    }
+    void parallelRemove(LockFreeLinkedList<T> &list, const std::vector<T> &itemsToRemove)
+    {
+        // Assuming OpenMP is set up and available
+        #pragma omp parallel for
+        for (int i = 0; i < itemsToRemove.size(); ++i)
+        {
+            list.removeSafe(itemsToRemove[i]);
+        }
+    }
 };
 
 #include <chrono>
 
-void benchmark(size_t numThreads) {
+void benchmarkOpenMP(size_t numThreads, size_t numElements = 10000) {
     LockFreeLinkedList<int> list;
-    const int numElements = 10000; // Number of operations per thread
+    std::vector<int> data(numElements);
+    std::vector<int> searchValues(numElements);
+    std::vector<int> itemsToRemove(numElements);
+
+    // Prepare data for operations
+    for (size_t i = 0; i < numElements; ++i) {
+        data[i] = i;
+        searchValues[i] = i;
+        itemsToRemove[i] = i;
+    }
+
+    omp_set_num_threads(numThreads);
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    std::vector<std::thread> threads;
-    for (size_t i = 0; i < numThreads; ++i) {
-        threads.emplace_back([&list, i, numElements]() {
-            for (int n = 0; n < numElements; ++n) {
-                int value = i * numElements + n;
-                list.insert(value);
-                list.searchSafe(value);
-                list.removeSafe(value);
-            }
-        });
-    }
+    // Parallel insert
+    // #pragma omp parallel for
+    // for (size_t i = 0; i < numElements; ++i) {
+    //     list.insert(data[i]);
+    // }
+    list.parallelInsert(list, data);
 
-    for (auto& t : threads) {
-        t.join();
-    }
+    // Parallel search
+    // std::vector<bool> results(numElements, false);
+    // #pragma omp parallel for
+    // for (size_t i = 0; i < numElements; ++i) {
+    //     results[i] = list.searchSafe(searchValues[i]);
+    // }
+    list.parallelSearch(list,searchValues);
 
+    // Parallel remove
+    // #pragma omp parallel for
+    // for (size_t i = 0; i < numElements; ++i) {
+    //     list.removeSafe(itemsToRemove[i]);
+    // }
+    list.parallelRemove(list, itemsToRemove);
+    
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> duration = end - start;
     double ms = duration.count();
-    double opsPerMs = (numThreads * numElements * 3) / ms; // Multiply by 3 because we insert, search, and remove
+    double opsPerMs = (numElements * 3) / ms; // Multiply by 3 because we insert, search, and remove
 
     std::cout << "Threads: " << numThreads << ", Time: " << ms << " ms, Ops/ms: " << opsPerMs << std::endl;
 }
 
 int main() {
-    for (size_t numThreads = 1; numThreads <= 4; numThreads*=2) { // Doubling the number of threads in each step
-        benchmark(numThreads);
+    for (size_t numThreads = 1; numThreads <= 128; numThreads *= 2) { // Adjust the number of threads as needed
+        benchmarkOpenMP(numThreads);
     }
     return 0;
 }
 
-// g++ -pg -std=c++17 -o LFLL LockFreeLinkedlist.cpp -lpthread -O3
+// g++ -pg -fopenmp -std=c++17 -o LFLLP LockFreeLinkedlist_parallel.cpp -lpthread -O3 && ./LFLLP
 // valgrind --leak-check=full --show-leak-kinds=all ./LFLL

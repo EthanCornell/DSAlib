@@ -9,6 +9,7 @@
 #include "ConditionVariableLinkedList.hpp"
 #include "NaiveLinkedList.hpp"
 #include "FineGrainedLinkedList.hpp"
+#include "NaiveLinkedList_smartptr.hpp"
 
 // Define a template function to get the name of the list type
 template<typename T>
@@ -18,6 +19,11 @@ std::string getLinkedListTypeName();
 template<>
 std::string getLinkedListTypeName<NaiveLinkedList<int>>() {
     return "Naive Linked List";
+}
+
+template<>
+std::string getLinkedListTypeName<NaiveLinkedList_ptr<int>>() {
+    return "Naive Linked List With Smart Pointer";
 }
 
 template<>
@@ -100,6 +106,7 @@ int main() {
 
     // Measure memory usage for each linked list implementation
     memoryTestLinkedList<NaiveLinkedList<int>>();
+    memoryTestLinkedList<NaiveLinkedList_ptr<int>>();
     memoryTestLinkedList<NonBlockingLinkedList<int>>();
     memoryTestLinkedList<ConditionVariableLinkedList<int>>();
     memoryTestLinkedList<LockFreeLinkedList<int>>();
@@ -108,5 +115,5 @@ int main() {
     return 0;
 }
 
-// g++ -pg -std=c++17 -o memoryTest memoryTest.cpp -lpthread -O3
+// g++ -pg -std=c++17 -o memoryTest memoryTest.cpp -lpthread -O3  && ./memoryTest
 // valgrind --leak-check=full --show-leak-kinds=all ./memoryTest

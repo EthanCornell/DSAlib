@@ -68,3 +68,6 @@ int main() {
 
     return 0;
 }
+
+// g++ -pg -fopenmp ParallelMergesort.cpp -o ParallelMergesort -O3 && ./ParallelMergesort
+// valgrind --leak-check=full --show-leak-kinds=all  --track-origins=yes ./ParallelMergesort

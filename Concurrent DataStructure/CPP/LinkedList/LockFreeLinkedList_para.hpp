@@ -1,21 +1,7 @@
-/*
- * Copyright (c) Cornell University.
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: I-Hsuan (Ethan) Huang
- * Email: ih246@cornell.edu
- */
+// LockFreeLinkedList_para.hpp
+
+#ifndef LOCK_FREE_LINKED_LIST_PARA_HPP
+#define LOCK_FREE_LINKED_LIST_PARA_HPP
 
 #include <atomic>
 #include <iostream>
@@ -23,10 +9,11 @@
 #include <thread>
 #include <cassert>
 #include <mutex>
+#include <omp.h>
 #include "HazardPointer.hpp"
 
 template <typename T>
-class LockFreeLinkedList
+class LockFreeLinkedList_para
 {
 private:
     struct Node
@@ -40,9 +27,9 @@ private:
     HPManager<Node> hpManager; // Assuming HPManager is templated on the node type
 
 public:
-    LockFreeLinkedList() : head(nullptr) {}
+    LockFreeLinkedList_para() : head(nullptr) {}
 
-    ~LockFreeLinkedList()
+    ~LockFreeLinkedList_para()
     {
         Node *current = head.load();
         while (current != nullptr)
@@ -141,46 +128,38 @@ public:
         hpManager.releaseHazardPointer(hp);
         return deleted; // Return true if a node was removed
     }
+
+    // The following methods should be static or outside the class since they don't use instance members
+    static void parallelInsert(LockFreeLinkedList_para<T> &list, const std::vector<T> &data)
+    {
+        #pragma omp parallel for
+        for (size_t i = 0; i < data.size(); ++i)
+        {
+            list.insert(data[i]);
+        }
+    }
+
+    static std::vector<bool> parallelSearch(LockFreeLinkedList_para<T> &list, const std::vector<T> &searchValues)
+    {
+        std::vector<bool> results(searchValues.size(), false);
+
+        #pragma omp parallel for
+        for (size_t i = 0; i < searchValues.size(); ++i)
+        {
+            results[i] = list.searchSafe(searchValues[i]);
+        }
+
+        return results;
+    }
+    
+    static void parallelRemove(LockFreeLinkedList_para<T> &list, const std::vector<T> &itemsToRemove)
+    {
+        #pragma omp parallel for
+        for (int i = 0; i < itemsToRemove.size(); ++i)
+        {
+            list.removeSafe(itemsToRemove[i]);
+        }
+    }
 };
 
-#include <chrono>
-
-void benchmark(size_t numThreads) {
-    LockFreeLinkedList<int> list;
-    const int numElements = 10000; // Number of operations per thread
-
-    auto start = std::chrono::high_resolution_clock::now();
-
-    std::vector<std::thread> threads;
-    for (size_t i = 0; i < numThreads; ++i) {
-        threads.emplace_back([&list, i, numElements]() {
-            for (int n = 0; n < numElements; ++n) {
-                int value = i * numElements + n;
-                list.insert(value);
-                list.searchSafe(value);
-                list.removeSafe(value);
-            }
-        });
-    }
-
-    for (auto& t : threads) {
-        t.join();
-    }
-
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> duration = end - start;
-    double ms = duration.count();
-    double opsPerMs = (numThreads * numElements * 3) / ms; // Multiply by 3 because we insert, search, and remove
-
-    std::cout << "Threads: " << numThreads << ", Time: " << ms << " ms, Ops/ms: " << opsPerMs << std::endl;
-}
-
-int main() {
-    for (size_t numThreads = 1; numThreads <= 4; numThreads*=2) { // Doubling the number of threads in each step
-        benchmark(numThreads);
-    }
-    return 0;
-}
-
-// g++ -pg -std=c++17 -o LFLL LockFreeLinkedlist.cpp -lpthread -O3
-// valgrind --leak-check=full --show-leak-kinds=all ./LFLL
+#endif // LOCK_FREE_LINKED_LIST_PARA_HPP
