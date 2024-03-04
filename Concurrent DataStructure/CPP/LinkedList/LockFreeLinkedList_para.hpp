@@ -1,5 +1,4 @@
 // LockFreeLinkedList_para.hpp
-
 #ifndef LOCK_FREE_LINKED_LIST_PARA_HPP
 #define LOCK_FREE_LINKED_LIST_PARA_HPP
 
@@ -132,7 +131,7 @@ public:
     // The following methods should be static or outside the class since they don't use instance members
     static void parallelInsert(LockFreeLinkedList_para<T> &list, const std::vector<T> &data)
     {
-        #pragma omp parallel for
+#pragma omp parallel for
         for (size_t i = 0; i < data.size(); ++i)
         {
             list.insert(data[i]);
@@ -143,7 +142,7 @@ public:
     {
         std::vector<bool> results(searchValues.size(), false);
 
-        #pragma omp parallel for
+#pragma omp parallel for
         for (size_t i = 0; i < searchValues.size(); ++i)
         {
             results[i] = list.searchSafe(searchValues[i]);
@@ -151,10 +150,10 @@ public:
 
         return results;
     }
-    
+
     static void parallelRemove(LockFreeLinkedList_para<T> &list, const std::vector<T> &itemsToRemove)
     {
-        #pragma omp parallel for
+#pragma omp parallel for
         for (int i = 0; i < itemsToRemove.size(); ++i)
         {
             list.removeSafe(itemsToRemove[i]);

@@ -42,7 +42,7 @@ template <typename T>
 class HPManager
 {
 private:
-    static const int MAX_HAZARD_POINTERS = 100;
+    static const int MAX_HAZARD_POINTERS = 512;
     HazardPointer<T> hazardPointers[MAX_HAZARD_POINTERS];
     std::vector<T *> retiredNodes; // List of retired nodes
     std::mutex retirementMutex;    // Protects access to retiredNodes

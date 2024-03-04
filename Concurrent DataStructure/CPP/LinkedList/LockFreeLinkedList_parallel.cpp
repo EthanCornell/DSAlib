@@ -145,7 +145,7 @@ public:
 
     void parallelInsert(LockFreeLinkedList<int> &list, const std::vector<int> &data)
     {
-        #pragma omp parallel for
+#pragma omp parallel for
         for (size_t i = 0; i < data.size(); ++i)
         {
             list.insert(data[i]);
@@ -156,7 +156,7 @@ public:
     {
         std::vector<bool> results(searchValues.size(), false);
 
-        #pragma omp parallel for
+#pragma omp parallel for
         for (size_t i = 0; i < searchValues.size(); ++i)
         {
             results[i] = list.searchSafe(searchValues[i]);
@@ -166,8 +166,8 @@ public:
     }
     void parallelRemove(LockFreeLinkedList<T> &list, const std::vector<T> &itemsToRemove)
     {
-        // Assuming OpenMP is set up and available
-        #pragma omp parallel for
+// Assuming OpenMP is set up and available
+#pragma omp parallel for
         for (int i = 0; i < itemsToRemove.size(); ++i)
         {
             list.removeSafe(itemsToRemove[i]);
@@ -177,22 +177,24 @@ public:
 
 #include <chrono>
 
-void benchmarkOpenMP(size_t numThreads, size_t numElements = 10000) {
+void benchmarkOpenMP(size_t numThreads, size_t numElements = 10000)
+{
     LockFreeLinkedList<int> list;
     std::vector<int> data(numElements);
     std::vector<int> searchValues(numElements);
     std::vector<int> itemsToRemove(numElements);
 
+        omp_set_num_threads(numThreads);
+
+    auto start = std::chrono::high_resolution_clock::now();
+
     // Prepare data for operations
-    for (size_t i = 0; i < numElements; ++i) {
+    for (size_t i = 0; i < numElements; ++i)
+    {
         data[i] = i;
         searchValues[i] = i;
         itemsToRemove[i] = i;
     }
-
-    omp_set_num_threads(numThreads);
-
-    auto start = std::chrono::high_resolution_clock::now();
 
     // Parallel insert
     // #pragma omp parallel for
@@ -207,7 +209,7 @@ void benchmarkOpenMP(size_t numThreads, size_t numElements = 10000) {
     // for (size_t i = 0; i < numElements; ++i) {
     //     results[i] = list.searchSafe(searchValues[i]);
     // }
-    list.parallelSearch(list,searchValues);
+    list.parallelSearch(list, searchValues);
 
     // Parallel remove
     // #pragma omp parallel for
@@ -215,17 +217,19 @@ void benchmarkOpenMP(size_t numThreads, size_t numElements = 10000) {
     //     list.removeSafe(itemsToRemove[i]);
     // }
     list.parallelRemove(list, itemsToRemove);
-    
+
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> duration = end - start;
     double ms = duration.count();
-    double opsPerMs = (numElements * 3) / ms; // Multiply by 3 because we insert, search, and remove
+    double opsPerMs = (numThreads * numElements * 3) / ms; // Multiply by 3 because we insert, search, and remove
 
     std::cout << "Threads: " << numThreads << ", Time: " << ms << " ms, Ops/ms: " << opsPerMs << std::endl;
 }
 
-int main() {
-    for (size_t numThreads = 1; numThreads <= 128; numThreads *= 2) { // Adjust the number of threads as needed
+int main()
+{
+    for (size_t numThreads = 1; numThreads <= 128; numThreads *= 2)
+    { // Adjust the number of threads as needed
         benchmarkOpenMP(numThreads);
     }
     return 0;
