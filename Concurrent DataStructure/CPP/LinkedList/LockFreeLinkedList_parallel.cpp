@@ -235,5 +235,5 @@ int main()
     return 0;
 }
 
-// g++ -pg -fopenmp -std=c++17 -o LFLLP LockFreeLinkedlist_parallel.cpp -lpthread -O3 && ./LFLLP
+// g++ -pg -fopenmp -fsanitize=address -g -std=c++17 -o LFLLP LockFreeLinkedlist_parallel.cpp -lpthread -O3 && ./LFLLP
 // valgrind --leak-check=full --show-leak-kinds=all ./LFLL

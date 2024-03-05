@@ -21,31 +21,33 @@
 
 // Node class definition
 template <typename T>
-class Node {
+class Node
+{
 public:
-    T data; // Data held by the Node
+    T data;                        // Data held by the Node
     std::shared_ptr<Node<T>> next; // Pointer to the next node
     std::shared_ptr<Node<T>> prev; // Pointer to the previous node
 
     // Constructor initializing Node with a value and null pointers to next and prev
-    Node(const T& val) : data(val), next(nullptr), prev(nullptr) {}
+    Node(const T &val) : data(val), next(nullptr), prev(nullptr) {}
 };
 
 // CircularDoublyLinkedList class definition
 template <typename T>
-class CircularDoublyLinkedList {
+class CircularDoublyLinkedList
+{
 private:
     std::shared_ptr<Node<T>> head; // Pointer to the head node
-    size_t size; // Added size member variable to track the list size
+    size_t size;                   // Added size member variable to track the list size
 
 public:
     CircularDoublyLinkedList() : head(nullptr) {} // Constructor initializing an empty list
 
     // Method to add a node at the front of the list
-    void push_front(const T& value);
+    void push_front(const T &value);
 
     // Method to add a node at the back of the list
-    void push_back(const T& val);
+    void push_back(const T &val);
 
     // Method to remove a node from the back of the list
     void pop_back();
@@ -54,10 +56,10 @@ public:
     void pop_front();
 
     // Method to insert a node at a specific index
-    void insert(int index, const T& value);
+    void insert(int index, const T &value);
 
     // Method to delete a node containing a specific value (declaration only)
-    void delete_node(const T& value);
+    void delete_node(const T &value);
 
     // Method to display the list contents
     void display();
@@ -66,14 +68,18 @@ public:
 // Definitions of CircularDoublyLinkedList methods
 
 // push_front: Add a new node at the beginning of the list.
-template<typename T>
-void CircularDoublyLinkedList<T>::push_front(const T& value) {
+template <typename T>
+void CircularDoublyLinkedList<T>::push_front(const T &value)
+{
     std::shared_ptr<Node<T>> newNode = std::make_shared<Node<T>>(value);
-    if (!head) {
+    if (!head)
+    {
         head = newNode;
         newNode->next = newNode;
         newNode->prev = newNode;
-    } else {
+    }
+    else
+    {
         newNode->next = head;
         newNode->prev = head->prev;
         head->prev->next = newNode;
@@ -83,17 +89,20 @@ void CircularDoublyLinkedList<T>::push_front(const T& value) {
     this->size++; // Update size
 }
 
-
 // push_back, the time complexity is O(1) as we are adding elements at the end.
 // push_back: Add a new node at the end of the list.
-template<typename T>
-void CircularDoublyLinkedList<T>::push_back(const T& val) {
+template <typename T>
+void CircularDoublyLinkedList<T>::push_back(const T &val)
+{
     std::shared_ptr<Node<T>> newNode = std::make_shared<Node<T>>(val);
-    if (!head) {
+    if (!head)
+    {
         head = newNode;
         head->next = head;
         head->prev = head;
-    } else {
+    }
+    else
+    {
         newNode->next = head;
         newNode->prev = head->prev;
         head->prev->next = newNode;
@@ -103,56 +112,70 @@ void CircularDoublyLinkedList<T>::push_back(const T& val) {
 }
 
 // pop_back: Remove the last node of the list.
-template<typename T>
-void CircularDoublyLinkedList<T>::pop_back() {
-    if (!head) return;
-    if (head == head->next) {
+template <typename T>
+void CircularDoublyLinkedList<T>::pop_back()
+{
+    if (!head)
+        return;
+    if (head == head->next)
+    {
         head = nullptr;
-    } else {
+    }
+    else
+    {
         auto newTail = head->prev->prev;
         newTail->next = head;
         head->prev = newTail;
     }
-    if (this->size > 0) this->size--; // Update size
+    if (this->size > 0)
+        this->size--; // Update size
 }
 
-
 // pop_front: Remove the first node of the list.
-template<typename T>
-void CircularDoublyLinkedList<T>::pop_front() {
-    if (!head) return;
-    if (head == head->next) {
+template <typename T>
+void CircularDoublyLinkedList<T>::pop_front()
+{
+    if (!head)
+        return;
+    if (head == head->next)
+    {
         head = nullptr;
-    } else {
+    }
+    else
+    {
         auto newHead = head->next;
         newHead->prev = head->prev;
         head->prev->next = newHead;
         head = newHead;
     }
-    if (this->size > 0) this->size--; // Update size
+    if (this->size > 0)
+        this->size--; // Update size
 }
 
-
-
 // insert: Insert a new node at a given index.
-template<typename T>
-void CircularDoublyLinkedList<T>::insert(int index, const T& value) {
+template <typename T>
+void CircularDoublyLinkedList<T>::insert(int index, const T &value)
+{
     // Assuming 'size' is a member variable that tracks the number of elements in the list
     // This would need to be declared and maintained within the CircularDoublyLinkedList class
-    if (index < 0 || index > this->size) {
+    if (index < 0 || index > this->size)
+    {
         throw std::out_of_range("Index out of range");
     }
-    if (index == 0) {
+    if (index == 0)
+    {
         push_front(value);
         return;
     }
-    if (index == this->size) {
+    if (index == this->size)
+    {
         push_back(value);
         return;
     }
     std::shared_ptr<Node<T>> newNode = std::make_shared<Node<T>>(value);
     auto current = head;
-    for (int i = 0; i < index - 1; i++) {
+    for (int i = 0; i < index - 1; i++)
+    {
         current = current->next;
     }
     newNode->next = current->next;
@@ -164,31 +187,40 @@ void CircularDoublyLinkedList<T>::insert(int index, const T& value) {
 }
 
 // delete_node: Delete a node with a given value.
-template<typename T>
-void CircularDoublyLinkedList<T>::delete_node(const T& value) {
-    if (!head) return; // List is empty, nothing to do.
+template <typename T>
+void CircularDoublyLinkedList<T>::delete_node(const T &value)
+{
+    if (!head)
+        return; // List is empty, nothing to do.
 
     std::shared_ptr<Node<T>> current = head;
     std::shared_ptr<Node<T>> toDelete = nullptr;
 
-    do {
-        if (current->data == value) {
+    do
+    {
+        if (current->data == value)
+        {
             toDelete = current;
             break;
         }
         current = current->next;
     } while (current != head);
 
-    if (!toDelete) return; // Value not found, nothing to do.
+    if (!toDelete)
+        return; // Value not found, nothing to do.
 
-    if (toDelete->next == toDelete) {
+    if (toDelete->next == toDelete)
+    {
         // Node is the only node in the list.
         head = nullptr;
-    } else {
+    }
+    else
+    {
         toDelete->prev->next = toDelete->next;
         toDelete->next->prev = toDelete->prev;
 
-        if (toDelete == head) {
+        if (toDelete == head)
+        {
             // Node is the head, update head to next node.
             head = toDelete->next;
         }
@@ -197,18 +229,19 @@ void CircularDoublyLinkedList<T>::delete_node(const T& value) {
     this->size--; // Decrement the size of the list.
 }
 
-
-template<typename T>
-void CircularDoublyLinkedList<T>::display() {
-    if (!head) return;
+template <typename T>
+void CircularDoublyLinkedList<T>::display()
+{
+    if (!head)
+        return;
     auto current = head;
-    do {
+    do
+    {
         std::cout << current->data << " ";
         current = current->next;
     } while (current != head);
     std::cout << std::endl;
 }
-
 
 // Time Complexity
 // push_front, pop_back, pop_front: O(1)
@@ -217,8 +250,8 @@ void CircularDoublyLinkedList<T>::display() {
 // Space Complexity
 // O(n) for all operations, where n is the number of elements in the list.
 
-
-int main() {
+int main()
+{
     CircularDoublyLinkedList<int> list;
 
     // Test cases
@@ -238,7 +271,7 @@ int main() {
     // Test pop_back and pop_front
     list.pop_back();
     list.pop_front();
-    list.display(); // Expected: 9 1 2 3 
+    list.display(); // Expected: 9 1 2 3
 
     // Test insert
     list.insert(1, 8);
@@ -254,3 +287,38 @@ int main() {
 }
 
 // g++ -pg -fsanitize=address -g ./circular_dll_smartptr.cpp -o cdllptr -O3
+
+// detected memory leaks
+// List contents : 1 2 3 0 9 1 2 3 2 9 1 2 3 9 8 1 2 3 9 8 2 3
+
+//     == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == ==
+//     =
+//         == 332 == ERROR : LeakSanitizer : detected memory leaks
+
+//                                               Indirect leak of 56 byte(s) in 1 object(s) allocated from :
+// # 0 0x7fdb4361d587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x5605d39c622b in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x5605d39c622b in CircularDoublyLinkedList<int> ::push_back(int const &) circular_dll_smartptr.cpp : 91
+// # 3 0x5605d39c5711 in main circular_dll_smartptr.cpp : 227
+// # 4 0x7fdb42f94d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+
+//     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
+// # 0 0x7fdb4361d587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x5605d39c7feb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x5605d39c7feb in CircularDoublyLinkedList<int> ::push_front(int const &) circular_dll_smartptr.cpp : 71
+// # 3 0x5605d39c5762 in main circular_dll_smartptr.cpp : 233
+// # 4 0x7fdb42f94d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+
+//     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
+// # 0 0x7fdb4361d587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x5605d39cc344 in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x5605d39cc344 in CircularDoublyLinkedList<int> ::insert(int, int const &) circular_dll_smartptr.cpp : 153
+// # 3 0x5605d39c5823 in main circular_dll_smartptr.cpp : 244
+// # 4 0x7fdb42f94d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+
+//     Indirect leak of 56 byte(s) in 1 object(s) allocated from:
+// # 0 0x7fdb4361d587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x5605d39c622b in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x5605d39c622b in CircularDoublyLinkedList<int> ::push_back(int const &) circular_dll_smartptr.cpp : 91
+// # 3 0x5605d39c56db in main circular_dll_smartptr.cpp : 226
+// # 4 0x7fdb42f94d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
