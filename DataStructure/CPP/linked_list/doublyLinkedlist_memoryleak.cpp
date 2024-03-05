@@ -14,7 +14,6 @@
  *
  * Author: I-Hsuan (Ethan) Huang
  * Email: ih246@cornell.edu
- * Project: Cache Replacement Algorithms
  */
 
 // this code is detected memory leaks
