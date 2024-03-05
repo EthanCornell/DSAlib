@@ -11,7 +11,6 @@
 void benchmarkBoost(size_t numThreads)
 {
     // Specify a capacity for the spsc_queue.
-    // Adjust the capacity as needed for your application's requirements.
     size_t queueCapacity = 1024;
     boost::lockfree::spsc_queue<int> list(queueCapacity);
     const int numElements = 10000; // Number of operations per thread
