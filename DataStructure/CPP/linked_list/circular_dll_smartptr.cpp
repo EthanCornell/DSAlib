@@ -113,7 +113,7 @@ void CircularDoublyLinkedList<T>::pop_back() {
         newTail->next = head;
         head->prev = newTail;
     }
-    if (size > 0) size--; // Update size
+    if (this->size > 0) this->size--; // Update size
 }
 
 
@@ -129,7 +129,7 @@ void CircularDoublyLinkedList<T>::pop_front() {
         head->prev->next = newHead;
         head = newHead;
     }
-    if (size > 0) size--; // Update size
+    if (this->size > 0) this->size--; // Update size
 }
 
 
@@ -194,7 +194,7 @@ void CircularDoublyLinkedList<T>::delete_node(const T& value) {
         }
     }
 
-    size--; // Decrement the size of the list.
+    this->size--; // Decrement the size of the list.
 }
 
 
