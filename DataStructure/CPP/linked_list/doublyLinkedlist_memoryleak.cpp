@@ -648,4 +648,3 @@ int main()
 // # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     SUMMARY : AddressSanitizer : 1512 byte(s) leaked in 27 allocation(s)
-.
