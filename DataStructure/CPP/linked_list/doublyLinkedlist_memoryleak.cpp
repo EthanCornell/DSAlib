@@ -497,167 +497,155 @@ int main()
     return 0;
 }
 
-//  g++ -pg -fsanitize=address -g ./doublyLinkedlist_ptr.cpp -o dllptr -O3  && ./dllptr
+//  g++ -pg -fsanitize=address -g ./doublyLinkedlist_memoryleak.cpp -o dllml -O3  && ./dllml
 
-// List in forward order : 2 1 3 4 List in backward order : 4 3 1 2 List after popping front and back : 1 3 Initial List : 2 1 1 3 3 4 List after deletions : 1 1 3 Adding elements at the end : 1 1 3 10 20 30
+// == 360 == ERROR : LeakSanitizer : detected memory leaks
 
-//     Adding elements at position 1 : 1 40 50 1 3 10 20 30
-
-//     Adding elements at the beginning : 60 70 1 40 50 1 3 10 20 30
-
-//     Adding more elements at the end : 60 70 1 40 50 1 3 10 20 30 80 90
-
-//     Trying to add elements at an invalid position : Operation successful : false 60 70 1 40 50 1 3 10 20 30 80 90 4 5 true,
-//                                                                            false The first element is : 1 The element at index 1 is : 2 The element at index 2 is : 3 Accessing index 5 gives an error : Index is out of bounds.Original list : 1 2 3 4 Copied list : 1 2 3
-
-//                                                                                == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == ==
-//                                                                            =
-//                                                                                == 353 == ERROR : LeakSanitizer : detected memory leaks
-
-//                                                                                                                      Indirect leak of 168 byte(s) in 3 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a33607fb in DoublyLinkedList<int> ::DoublyLinkedList(DoublyLinkedList<int> const &) doublyLinkedlist_ptr.cpp : 68
-// # 4 0x55d5a3355fe4 in main doublyLinkedlist_ptr.cpp : 483
-// # 5 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+//                                       Indirect leak of 168 byte(s) in 3 object(s) allocated from :
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a5318837fb in DoublyLinkedList<int> ::DoublyLinkedList(DoublyLinkedList<int> const &) doublyLinkedlist_memoryleak.cpp : 69
+// # 4 0x55a531878fe4 in main doublyLinkedlist_memoryleak.cpp : 484
+// # 5 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 168 byte(s) in 3 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a33550ba in DoublyLinkedList<int> ::addAll(std::initializer_list<int> const &) doublyLinkedlist_ptr.cpp : 154
-// # 4 0x55d5a33550ba in main doublyLinkedlist_ptr.cpp : 385
-// # 5 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a5318780ba in DoublyLinkedList<int> ::addAll(std::initializer_list<int> const &) doublyLinkedlist_memoryleak.cpp : 155
+// # 4 0x55a5318780ba in main doublyLinkedlist_memoryleak.cpp : 386
+// # 5 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 112 byte(s) in 2 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a33614e6 in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a33614e6 in DoublyLinkedList<int> ::addAll(int, std::initializer_list<int> const &) doublyLinkedlist_ptr.cpp : 196
-// # 3 0x55d5a33551e9 in main doublyLinkedlist_ptr.cpp : 390
-// # 4 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a5318844e6 in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a5318844e6 in DoublyLinkedList<int> ::addAll(int, std::initializer_list<int> const &) doublyLinkedlist_memoryleak.cpp : 197
+// # 3 0x55a5318781e9 in main doublyLinkedlist_memoryleak.cpp : 391
+// # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 112 byte(s) in 2 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a335ff67 in DoublyLinkedList<int> ::clone() const doublyLinkedlist_ptr.cpp : 273
-// # 4 0x55d5a3355ad0 in main doublyLinkedlist_ptr.cpp : 421
-// # 5 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a531882f67 in DoublyLinkedList<int> ::clone() const doublyLinkedlist_memoryleak.cpp : 274
+// # 4 0x55a531878ad0 in main doublyLinkedlist_memoryleak.cpp : 422
+// # 5 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 112 byte(s) in 2 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a335751b in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a335751b in DoublyLinkedList<int> ::push_front(int const &) doublyLinkedlist_ptr.cpp : 94
-// # 3 0x55d5a3360efe in DoublyLinkedList<int> ::addAll(int, std::initializer_list<int> const &) doublyLinkedlist_ptr.cpp : 173
-// # 4 0x55d5a33552fb in main doublyLinkedlist_ptr.cpp : 395
-// # 5 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187a51b in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187a51b in DoublyLinkedList<int> ::push_front(int const &) doublyLinkedlist_memoryleak.cpp : 95
+// # 3 0x55a531883efe in DoublyLinkedList<int> ::addAll(int, std::initializer_list<int> const &) doublyLinkedlist_memoryleak.cpp : 174
+// # 4 0x55a5318782fb in main doublyLinkedlist_memoryleak.cpp : 396
+// # 5 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a3355405 in DoublyLinkedList<int> ::addAll(std::initializer_list<int> const &) doublyLinkedlist_ptr.cpp : 154
-// # 4 0x55d5a3355405 in main doublyLinkedlist_ptr.cpp : 400
-// # 5 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a531878405 in DoublyLinkedList<int> ::addAll(std::initializer_list<int> const &) doublyLinkedlist_memoryleak.cpp : 155
+// # 4 0x55a531878405 in main doublyLinkedlist_memoryleak.cpp : 401
+// # 5 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a3355ca5 in main doublyLinkedlist_ptr.cpp : 438
-// # 4 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a531878ca5 in main doublyLinkedlist_memoryleak.cpp : 439
+// # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a3354e8a in main doublyLinkedlist_ptr.cpp : 369
-// # 4 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a531877e8a in main doublyLinkedlist_memoryleak.cpp : 370
+// # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a33556a4 in main doublyLinkedlist_ptr.cpp : 412
-// # 4 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a5318786a4 in main doublyLinkedlist_memoryleak.cpp : 413
+// # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a3356019 in main doublyLinkedlist_ptr.cpp : 486
-// # 4 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a531879019 in main doublyLinkedlist_memoryleak.cpp : 487
+// # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a335566e in main doublyLinkedlist_ptr.cpp : 411
-// # 4 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a53187866e in main doublyLinkedlist_memoryleak.cpp : 412
+// # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a3355638 in main doublyLinkedlist_ptr.cpp : 410
-// # 4 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a531878638 in main doublyLinkedlist_memoryleak.cpp : 411
+// # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a3355ce8 in main doublyLinkedlist_ptr.cpp : 439
-// # 4 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a531878ce8 in main doublyLinkedlist_memoryleak.cpp : 440
+// # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a3355d2b in main doublyLinkedlist_ptr.cpp : 440
-// # 4 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a531878d2b in main doublyLinkedlist_memoryleak.cpp : 441
+// # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a3355f56 in main doublyLinkedlist_ptr.cpp : 479
-// # 4 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a531878f56 in main doublyLinkedlist_memoryleak.cpp : 480
+// # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a3355f0f in main doublyLinkedlist_ptr.cpp : 478
-// # 4 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a531878f0f in main doublyLinkedlist_memoryleak.cpp : 479
+// # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a3355f9d in main doublyLinkedlist_ptr.cpp : 480
-// # 4 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a531878f9d in main doublyLinkedlist_memoryleak.cpp : 481
+// # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a3358afb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a3358afb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_ptr.cpp : 76
-// # 3 0x55d5a3355414 in DoublyLinkedList<int> ::addAll(std::initializer_list<int> const &) doublyLinkedlist_ptr.cpp : 154
-// # 4 0x55d5a3355414 in main doublyLinkedlist_ptr.cpp : 400
-// # 5 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187bafb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187bafb in DoublyLinkedList<int> ::push_back(int const &) doublyLinkedlist_memoryleak.cpp : 77
+// # 3 0x55a531878414 in DoublyLinkedList<int> ::addAll(std::initializer_list<int> const &) doublyLinkedlist_memoryleak.cpp : 155
+// # 4 0x55a531878414 in main doublyLinkedlist_memoryleak.cpp : 401
+// # 5 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a335751b in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a335751b in DoublyLinkedList<int> ::push_front(int const &) doublyLinkedlist_ptr.cpp : 94
-// # 3 0x55d5a3354e1e in main doublyLinkedlist_ptr.cpp : 367
-// # 4 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187a51b in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187a51b in DoublyLinkedList<int> ::push_front(int const &) doublyLinkedlist_memoryleak.cpp : 95
+// # 3 0x55a531877e1e in main doublyLinkedlist_memoryleak.cpp : 368
+// # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7f83c7381587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x55d5a335751b in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x55d5a335751b in DoublyLinkedList<int> ::push_front(int const &) doublyLinkedlist_ptr.cpp : 94
-// # 3 0x55d5a3354ce5 in main doublyLinkedlist_ptr.cpp : 349
-// # 4 0x7f83c6cf8d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7fa64ccb8587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x55a53187a51b in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x55a53187a51b in DoublyLinkedList<int> ::push_front(int const &) doublyLinkedlist_memoryleak.cpp : 95
+// # 3 0x55a531877ce5 in main doublyLinkedlist_memoryleak.cpp : 350
+// # 4 0x7fa64c62fd8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
-//     SUMMARY : AddressSanitizer : 1512 byte(s) leaked in 27 allocation(s).
+//     SUMMARY : AddressSanitizer : 1512 byte(s) leaked in 27 allocation(s)
+.
