@@ -16,124 +16,197 @@
  * Author: I-Hsuan (Ethan) Huang
  * Email: ih246@cornell.edu
  */
-#include <memory>
 #include <iostream>
+#include <memory>
 
-template<typename T>
-struct Node {
-    T data;
-    std::unique_ptr<Node<T>> next;
-    Node<T>* prev;
-    Node(T value) : data(value), next(nullptr), prev(nullptr) {}
+// Node class definition
+template <typename T>
+class Node {
+public:
+    T data; // Data held by the Node
+    std::shared_ptr<Node<T>> next; // Pointer to the next node
+    std::shared_ptr<Node<T>> prev; // Pointer to the previous node
+
+    // Constructor initializing Node with a value and null pointers to next and prev
+    Node(const T& val) : data(val), next(nullptr), prev(nullptr) {}
 };
 
-template<typename T>
+// CircularDoublyLinkedList class definition
+template <typename T>
 class CircularDoublyLinkedList {
 private:
-    std::unique_ptr<Node<T>> head;
-    Node<T>* tail;
+    std::shared_ptr<Node<T>> head; // Pointer to the head node
+    size_t size; // Added size member variable to track the list size
 
 public:
-    CircularDoublyLinkedList() : head(nullptr), tail(nullptr) {}
-    ~CircularDoublyLinkedList() {
-        if (head) {
-            tail->next = nullptr; // Break the circular link
-        }
-        while (head) {
-            head = std::move(head->next);
-        }
-    }
+    CircularDoublyLinkedList() : head(nullptr) {} // Constructor initializing an empty list
 
-    void push_back(T value);
-    void push_front(T value);
+    // Method to add a node at the front of the list
+    void push_front(const T& value);
+
+    // Method to add a node at the back of the list
+    void push_back(const T& val);
+
+    // Method to remove a node from the back of the list
     void pop_back();
+
+    // Method to remove a node from the front of the list
     void pop_front();
-    void insert(int index, T value);
-    void delete_node(T value);
+
+    // Method to insert a node at a specific index
+    void insert(int index, const T& value);
+
+    // Method to delete a node containing a specific value (declaration only)
+    void delete_node(const T& value);
+
+    // Method to display the list contents
     void display();
-    // Other member functions can be added as needed
 };
 
-
-
+// Definitions of CircularDoublyLinkedList methods
 
 // push_front: Add a new node at the beginning of the list.
 template<typename T>
-void CircularDoublyLinkedList<T>::push_front(T value) {
-    // Implement push_front
+void CircularDoublyLinkedList<T>::push_front(const T& value) {
+    std::shared_ptr<Node<T>> newNode = std::make_shared<Node<T>>(value);
+    if (!head) {
+        head = newNode;
+        newNode->next = newNode;
+        newNode->prev = newNode;
+    } else {
+        newNode->next = head;
+        newNode->prev = head->prev;
+        head->prev->next = newNode;
+        head->prev = newNode;
+        head = newNode;
+    }
+    this->size++; // Update size
 }
 
 
 // push_back, the time complexity is O(1) as we are adding elements at the end.
 // push_back: Add a new node at the end of the list.
 template<typename T>
-void CircularDoublyLinkedList<T>::push_back(T value) {
-    // Implement push_back
+void CircularDoublyLinkedList<T>::push_back(const T& val) {
+    std::shared_ptr<Node<T>> newNode = std::make_shared<Node<T>>(val);
+    if (!head) {
+        head = newNode;
+        head->next = head;
+        head->prev = head;
+    } else {
+        newNode->next = head;
+        newNode->prev = head->prev;
+        head->prev->next = newNode;
+        head->prev = newNode;
+    }
+    this->size++; // Update size
 }
-
-
-
 
 // pop_back: Remove the last node of the list.
 template<typename T>
 void CircularDoublyLinkedList<T>::pop_back() {
-    // Implement pop_back
+    if (!head) return;
+    if (head == head->next) {
+        head = nullptr;
+    } else {
+        auto newTail = head->prev->prev;
+        newTail->next = head;
+        head->prev = newTail;
+    }
+    if (size > 0) size--; // Update size
 }
 
 
 // pop_front: Remove the first node of the list.
 template<typename T>
 void CircularDoublyLinkedList<T>::pop_front() {
-    // Implement pop_front
+    if (!head) return;
+    if (head == head->next) {
+        head = nullptr;
+    } else {
+        auto newHead = head->next;
+        newHead->prev = head->prev;
+        head->prev->next = newHead;
+        head = newHead;
+    }
+    if (size > 0) size--; // Update size
 }
 
 
 
 // insert: Insert a new node at a given index.
 template<typename T>
-void CircularDoublyLinkedList<T>::insert(int index, T value) {
+void CircularDoublyLinkedList<T>::insert(int index, const T& value) {
+    // Assuming 'size' is a member variable that tracks the number of elements in the list
+    // This would need to be declared and maintained within the CircularDoublyLinkedList class
+    if (index < 0 || index > this->size) {
+        throw std::out_of_range("Index out of range");
+    }
     if (index == 0) {
         push_front(value);
         return;
     }
-    Node<T>* current = head.get();
-    for (int i = 0; current != nullptr && i < index - 1; i++) {
-        current = current->next.get();
+    if (index == this->size) {
+        push_back(value);
+        return;
     }
-    if (!current) return; // Index out of bounds
-
-    std::unique_ptr<Node<T>> newNode = std::make_unique<Node<T>>(value);
-    newNode->next = std::move(current->next);
+    std::shared_ptr<Node<T>> newNode = std::make_shared<Node<T>>(value);
+    auto current = head;
+    for (int i = 0; i < index - 1; i++) {
+        current = current->next;
+    }
+    newNode->next = current->next;
     newNode->prev = current;
-    newNode->next->prev = newNode.get();
-    current->next = std::move(newNode);
-    if (current == tail) {
-        tail = tail->next.get();
-    }
+    current->next->prev = newNode;
+    current->next = newNode;
+    // Increment the size of the list
+    this->size++;
 }
 
 // delete_node: Delete a node with a given value.
 template<typename T>
-void CircularDoublyLinkedList<T>::delete_node(T value) {
-    if (!head) return; // Empty list
+void CircularDoublyLinkedList<T>::delete_node(const T& value) {
+    if (!head) return; // List is empty, nothing to do.
 
-    if (head->data == value) {
-        pop_front();
-        return;
+    std::shared_ptr<Node<T>> current = head;
+    std::shared_ptr<Node<T>> toDelete = nullptr;
+
+    do {
+        if (current->data == value) {
+            toDelete = current;
+            break;
+        }
+        current = current->next;
+    } while (current != head);
+
+    if (!toDelete) return; // Value not found, nothing to do.
+
+    if (toDelete->next == toDelete) {
+        // Node is the only node in the list.
+        head = nullptr;
+    } else {
+        toDelete->prev->next = toDelete->next;
+        toDelete->next->prev = toDelete->prev;
+
+        if (toDelete == head) {
+            // Node is the head, update head to next node.
+            head = toDelete->next;
+        }
     }
 
-    Node<T>* current = head->next.get();
-    while (current != head.get() && current->data != value) {
-        current = current->next.get();
-    }
+    size--; // Decrement the size of the list.
+}
 
-    if (current == head.get()) return; // Value not found
 
-    current->prev->next = std::move(current->next);
-    current->next->prev = current->prev;
-    if (current == tail) {
-        tail = current->prev;
-    }
+template<typename T>
+void CircularDoublyLinkedList<T>::display() {
+    if (!head) return;
+    auto current = head;
+    do {
+        std::cout << current->data << " ";
+        current = current->next;
+    } while (current != head);
+    std::cout << std::endl;
 }
 
 
@@ -143,21 +216,6 @@ void CircularDoublyLinkedList<T>::delete_node(T value) {
 // delete_node: O(n) in the worst case (when the node is at the end or not present)
 // Space Complexity
 // O(n) for all operations, where n is the number of elements in the list.
-
-template<typename T>
-void CircularDoublyLinkedList<T>::display() {
-    if (!head) {
-        std::cout << "List is empty" << std::endl;
-        return;
-    }
-    Node<T>* current = head.get();
-    do {
-        std::cout << current->data << " ";
-        current = current->next.get();
-    } while (current != head.get());
-    std::cout << std::endl;
-}
-
 
 
 int main() {
@@ -172,25 +230,27 @@ int main() {
     list.display(); // Expected: 1 2 3
 
     // Test push_front and push_back
-    list.push_front(1);
+    list.push_front(9);
     list.push_back(2);
     list.push_front(0);
-    list.display(); // Expected: 0 1 2
+    list.display(); // Expected: 0 9 1 2 3 2
 
     // Test pop_back and pop_front
     list.pop_back();
     list.pop_front();
-    list.display(); // Expected: 1
+    list.display(); // Expected: 9 1 2 3 
 
     // Test insert
-    list.insert(1, 3);
-    list.display(); // Expected: 1 3
+    list.insert(1, 8);
+    list.display(); // Expected: 9 8 1 2 3
 
     // Test delete_node
     list.delete_node(1);
-    list.display(); // Expected: 3
+    list.display(); // Expected: 9 8 2 3
 
     // Add more test cases as needed
 
     return 0;
 }
+
+// g++ -pg -fsanitize=address -g ./circular_dll_smartptr.cpp -o cdllptr -O3
