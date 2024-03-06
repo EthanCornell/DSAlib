@@ -33,9 +33,9 @@ using namespace std;
 // Display: O(n) as it traverses the entire list.
 // Space Complexity: O(n) for storing n nodes in the list.
 
-
 // Node class
-class Node {
+class Node
+{
 public:
     int data;
     Node *prev, *next;
@@ -44,16 +44,19 @@ public:
 };
 
 // Circular Doubly Linked List class
-class CircularDoublyLinkedList {
+class CircularDoublyLinkedList
+{
     Node *head;
 
 public:
     CircularDoublyLinkedList() : head(nullptr) {}
 
     // Insert a new node at the front
-    void insertFront(int val) {
+    void insertFront(int val)
+    {
         Node *newNode = new Node(val);
-        if (!head) {
+        if (!head)
+        {
             newNode->next = newNode->prev = newNode;
             head = newNode;
             return;
@@ -66,8 +69,10 @@ public:
     }
 
     // Insert a new node at the end
-    void insertEnd(int val) {
-        if (!head) {
+    void insertEnd(int val)
+    {
+        if (!head)
+        {
             insertFront(val);
             return;
         }
@@ -79,19 +84,25 @@ public:
     }
 
     // Delete a node with a specific value
-    void deleteNode(int val) {
-        if (!head) return;
+    void deleteNode(int val)
+    {
+        if (!head)
+            return;
         Node *current = head;
-        do {
-            if (current->data == val) {
-                if (current == head && current->next == head) {
+        do
+        {
+            if (current->data == val)
+            {
+                if (current == head && current->next == head)
+                {
                     delete current;
                     head = nullptr;
                     return;
                 }
                 current->prev->next = current->next;
                 current->next->prev = current->prev;
-                if (current == head) head = current->next;
+                if (current == head)
+                    head = current->next;
                 delete current;
                 return;
             }
@@ -103,11 +114,15 @@ public:
     // Time Complexity: O(n), as it might need to traverse the entire list in the worst case.
     // Space Complexity: O(1), as no additional space is used.
     // Search for a node with a specific value
-    bool search(int val) {
-        if (!head) return false;
+    bool search(int val)
+    {
+        if (!head)
+            return false;
         Node *current = head;
-        do {
-            if (current->data == val) {
+        do
+        {
+            if (current->data == val)
+            {
                 return true;
             }
             current = current->next;
@@ -116,10 +131,13 @@ public:
     }
 
     // Display the list
-    void display() {
-        if (!head) return;
+    void display()
+    {
+        if (!head)
+            return;
         Node *current = head;
-        do {
+        do
+        {
             cout << current->data << " ";
             current = current->next;
         } while (current != head);
@@ -127,10 +145,13 @@ public:
     }
 
     // Destructor to free memory
-    ~CircularDoublyLinkedList() {
-        if (!head) return;
+    ~CircularDoublyLinkedList()
+    {
+        if (!head)
+            return;
         Node *current = head;
-        do {
+        do
+        {
             Node *next = current->next;
             delete current;
             current = next;
@@ -139,7 +160,8 @@ public:
 };
 
 // Main function
-int main() {
+int main()
+{
     CircularDoublyLinkedList list;
     list.insertFront(3);
     list.insertFront(2);
@@ -165,3 +187,5 @@ int main() {
 
     return 0;
 }
+
+// g++ -pg -fopenmp -fsanitize=address -g -std=c++17 -o cdll ./circular_dll.cpp && ./cdll

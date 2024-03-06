@@ -288,37 +288,34 @@ int main()
 
 // g++ -pg -fsanitize=address -g ./circular_dll_smartptr.cpp -o cdllptr -O3
 
-// detected memory leaks
-// List contents : 1 2 3 0 9 1 2 3 2 9 1 2 3 9 8 1 2 3 9 8 2 3
+// == 367 == ERROR : LeakSanitizer : detected memory leaks
 
-//     == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == ==
-//     =
-//         == 332 == ERROR : LeakSanitizer : detected memory leaks
-
-//                                               Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7fdb4361d587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x5605d39c622b in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x5605d39c622b in CircularDoublyLinkedList<int> ::push_back(int const &) circular_dll_smartptr.cpp : 91
-// # 3 0x5605d39c5711 in main circular_dll_smartptr.cpp : 227
-// # 4 0x7fdb42f94d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+//                                       Indirect leak of 56 byte(s) in 1 object(s) allocated from :
+// # 0 0x7f8ae7ff7587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x560ffd97b22b in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x560ffd97b22b in CircularDoublyLinkedList<int> ::push_back(int const &) circular_dll_smartptr.cpp : 97
+// # 3 0x560ffd97a711 in main circular_dll_smartptr.cpp : 260
+// # 4 0x7f8ae796ed8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7fdb4361d587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x5605d39c7feb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x5605d39c7feb in CircularDoublyLinkedList<int> ::push_front(int const &) circular_dll_smartptr.cpp : 71
-// # 3 0x5605d39c5762 in main circular_dll_smartptr.cpp : 233
-// # 4 0x7fdb42f94d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7f8ae7ff7587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x560ffd97cfeb in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x560ffd97cfeb in CircularDoublyLinkedList<int> ::push_front(int const &) circular_dll_smartptr.cpp : 74
+// # 3 0x560ffd97a762 in main circular_dll_smartptr.cpp : 266
+// # 4 0x7f8ae796ed8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
 //     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
-// # 0 0x7fdb4361d587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x5605d39cc344 in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x5605d39cc344 in CircularDoublyLinkedList<int> ::insert(int, int const &) circular_dll_smartptr.cpp : 153
-// # 3 0x5605d39c5823 in main circular_dll_smartptr.cpp : 244
-// # 4 0x7fdb42f94d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+// # 0 0x7f8ae7ff7587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x560ffd981344 in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x560ffd981344 in CircularDoublyLinkedList<int> ::insert(int, int const &) circular_dll_smartptr.cpp : 175
+// # 3 0x560ffd97a823 in main circular_dll_smartptr.cpp : 277
+// # 4 0x7f8ae796ed8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
 
-//     Indirect leak of 56 byte(s) in 1 object(s) allocated from:
-// # 0 0x7fdb4361d587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
-// # 1 0x5605d39c622b in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
-// # 2 0x5605d39c622b in CircularDoublyLinkedList<int> ::push_back(int const &) circular_dll_smartptr.cpp : 91
-// # 3 0x5605d39c56db in main circular_dll_smartptr.cpp : 226
-// # 4 0x7fdb42f94d8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+//     Indirect leak of 56 byte(s) in 1 object(s) allocated from :
+// # 0 0x7f8ae7ff7587 in operator new (unsigned long)../../../../ src / libsanitizer / asan / asan_new_delete.cc : 104
+// # 1 0x560ffd97b22b in std::shared_ptr<Node<int>> std::make_shared<Node<int>, int const &>(int const &) / usr / include / c ++ / 9 / ext / new_allocator.h : 114
+// # 2 0x560ffd97b22b in CircularDoublyLinkedList<int> ::push_back(int const &) circular_dll_smartptr.cpp : 97
+// # 3 0x560ffd97a6db in main circular_dll_smartptr.cpp : 259
+// # 4 0x7f8ae796ed8f(/ lib / x86_64 - linux - gnu / libc.so .6 + 0x29d8f)
+
+//     SUMMARY : AddressSanitizer : 224 byte(s) leaked in 4 allocation(s)
