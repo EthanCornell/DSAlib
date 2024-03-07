@@ -34,3 +34,5 @@ int main()
 
     return 0;
 }
+
+// g++ -pg -fsanitize=address -g ./BoundedBuffer_cp.cpp -o bbcp -O3  && ./bbcp
