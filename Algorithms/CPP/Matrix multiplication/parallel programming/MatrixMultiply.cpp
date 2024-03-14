@@ -578,7 +578,6 @@ int main()
 // g++ -fopenmp -march=native -ffast-math -fopt-info-vec -o MatrixMultiply MatrixMultiply.cpp -O3 && ./MatrixMultiply
 // valgrind --tool=cachegrind ./MatrixMultiply
 
-
 // ==325== Cachegrind, a cache and branch-prediction profiler
 // ==325== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
 // ==325== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
@@ -608,7 +607,7 @@ int main()
 
 // Matrix size: 1024x1024
 
-// ^[[B^[[B^[[A^[[A  Cache Friendly:  Time: 21799 ms
+//   Cache Friendly:  Time: 21799 ms
 //   Parallel:  Time: 181382 ms
 //   Block-wise:  Time: 196793 ms
 
