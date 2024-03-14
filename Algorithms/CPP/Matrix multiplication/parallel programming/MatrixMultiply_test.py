@@ -26,7 +26,7 @@ def compile_and_run(executable, cpp_source):
     is_windows = sys.platform.startswith('win')
     
     # Adjust the compile and run commands for compatibility
-    compile_command = 'g++ -fopenmp -o {} {} -O3'.format(executable, cpp_source)
+    compile_command = 'g++ -fopenmp -march=native -ffast-math -o {} {} -O3'.format(executable, cpp_source)
     subprocess.run(compile_command, shell=True, check=True)
 
     run_command = executable if is_windows else './{}'.format(executable)

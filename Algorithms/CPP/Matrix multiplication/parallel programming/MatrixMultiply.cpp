@@ -17,7 +17,6 @@
  * Email: ih246@cornell.edu
  */
 
-
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -30,8 +29,10 @@ using namespace std::chrono;
 
 // 1. Basic Matrix Multiplication
 // Function to multiply two matrices
-vector<vector<int>> multiplyMatrices(const vector<vector<int>>& matrix1, const vector<vector<int>>& matrix2) {
-    if (matrix1.empty() || matrix2.empty()) return {};
+vector<vector<int>> multiplyMatrices(const vector<vector<int>> &matrix1, const vector<vector<int>> &matrix2)
+{
+    if (matrix1.empty() || matrix2.empty())
+        return {};
 
     int rows1 = matrix1.size();
     int cols1 = matrix1[0].size();
@@ -39,7 +40,8 @@ vector<vector<int>> multiplyMatrices(const vector<vector<int>>& matrix1, const v
     int cols2 = matrix2[0].size();
 
     // Check if multiplication is possible
-    if (cols1 != rows2) {
+    if (cols1 != rows2)
+    {
         throw invalid_argument("Matrices cannot be multiplied due to incompatible dimensions.");
     }
 
@@ -47,9 +49,12 @@ vector<vector<int>> multiplyMatrices(const vector<vector<int>>& matrix1, const v
     vector<vector<int>> result(rows1, vector<int>(cols2, 0));
 
     // Perform multiplication
-    for (int i = 0; i < rows1; i++) {
-        for (int j = 0; j < cols2; j++) {
-            for (int k = 0; k < cols1; k++) {
+    for (int i = 0; i < rows1; i++)
+    {
+        for (int j = 0; j < cols2; j++)
+        {
+            for (int k = 0; k < cols1; k++)
+            {
                 result[i][j] += matrix1[i][k] * matrix2[k][j];
             }
         }
@@ -58,13 +63,13 @@ vector<vector<int>> multiplyMatrices(const vector<vector<int>>& matrix1, const v
     return result;
 }
 
-
-
 // 2. Cache Friendly
 // Function to multiply two matrices using loop tiling
-vector<vector<int>> multiplyMatricesCacheFriendly(const vector<vector<int>>& matrix1, const vector<vector<int>>& matrix2) {
-    const int BLOCK_SIZE = 64; // Example block size, adjust based on system's cache
-    if (matrix1.empty() || matrix2.empty()) return {};
+vector<vector<int>> multiplyMatricesCacheFriendly(const vector<vector<int>> &matrix1, const vector<vector<int>> &matrix2)
+{
+    const int BLOCK_SIZE = 128; // Example block size, adjust based on system's cache
+    if (matrix1.empty() || matrix2.empty())
+        return {};
 
     int rows1 = matrix1.size();
     int cols1 = matrix1[0].size();
@@ -72,7 +77,8 @@ vector<vector<int>> multiplyMatricesCacheFriendly(const vector<vector<int>>& mat
     int cols2 = matrix2[0].size();
 
     // Check if multiplication is possible
-    if (cols1 != rows2) {
+    if (cols1 != rows2)
+    {
         throw invalid_argument("Matrices cannot be multiplied due to incompatible dimensions.");
     }
 
@@ -80,12 +86,19 @@ vector<vector<int>> multiplyMatricesCacheFriendly(const vector<vector<int>>& mat
     vector<vector<int>> result(rows1, vector<int>(cols2, 0));
 
     // Perform multiplication with loop tiling
-    for (int i0 = 0; i0 < rows1; i0 += BLOCK_SIZE) {
-        for (int j0 = 0; j0 < cols2; j0 += BLOCK_SIZE) {
-            for (int k0 = 0; k0 < cols1; k0 += BLOCK_SIZE) {
-                for (int i = i0; i < min(i0 + BLOCK_SIZE, rows1); ++i) {
-                    for (int j = j0; j < min(j0 + BLOCK_SIZE, cols2); ++j) {
-                        for (int k = k0; k < min(k0 + BLOCK_SIZE, cols1); ++k) {
+
+    for (int k0 = 0; k0 < cols1; k0 += BLOCK_SIZE)
+    {
+        for (int i0 = 0; i0 < rows1; i0 += BLOCK_SIZE)
+        {
+            for (int j0 = 0; j0 < cols2; j0 += BLOCK_SIZE)
+            {
+                for (int k = k0; k < min(k0 + BLOCK_SIZE, cols1); ++k)
+                {
+                    for (int i = i0; i < min(i0 + BLOCK_SIZE, rows1); ++i)
+                    {
+                        for (int j = j0; j < min(j0 + BLOCK_SIZE, cols2); ++j)
+                        {
                             result[i][j] += matrix1[i][k] * matrix2[k][j];
                         }
                     }
@@ -99,11 +112,14 @@ vector<vector<int>> multiplyMatricesCacheFriendly(const vector<vector<int>>& mat
 
 // 3. Strassen's Algorithm
 // Function to add two matrices
-vector<vector<int>> add(const vector<vector<int>>& A, const vector<vector<int>>& B) {
+vector<vector<int>> add(const vector<vector<int>> &A, const vector<vector<int>> &B)
+{
     int n = A.size();
     vector<vector<int>> C(n, vector<int>(n, 0));
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
             C[i][j] = A[i][j] + B[i][j];
         }
     }
@@ -111,11 +127,14 @@ vector<vector<int>> add(const vector<vector<int>>& A, const vector<vector<int>>&
 }
 
 // Function to subtract two matrices
-vector<vector<int>> subtract(const vector<vector<int>>& A, const vector<vector<int>>& B) {
+vector<vector<int>> subtract(const vector<vector<int>> &A, const vector<vector<int>> &B)
+{
     int n = A.size();
     vector<vector<int>> C(n, vector<int>(n, 0));
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
             C[i][j] = A[i][j] - B[i][j];
         }
     }
@@ -123,12 +142,14 @@ vector<vector<int>> subtract(const vector<vector<int>>& A, const vector<vector<i
 }
 
 // Strassen's algorithm for matrix multiplication
-vector<vector<int>> strassenMultiply(const vector<vector<int>>& A, const vector<vector<int>>& B) {
+vector<vector<int>> strassenMultiply(const vector<vector<int>> &A, const vector<vector<int>> &B)
+{
     int n = A.size();
     vector<vector<int>> C(n, vector<int>(n, 0));
 
     // Base case: 1x1 matrix
-    if (n == 1) {
+    if (n == 1)
+    {
         C[0][0] = A[0][0] * B[0][0];
         return C;
     }
@@ -136,12 +157,14 @@ vector<vector<int>> strassenMultiply(const vector<vector<int>>& A, const vector<
     // Divide matrices into quarters
     int k = n / 2;
     vector<vector<int>> A11(k, vector<int>(k)), A12(k, vector<int>(k)),
-                         A21(k, vector<int>(k)), A22(k, vector<int>(k)),
-                         B11(k, vector<int>(k)), B12(k, vector<int>(k)),
-                         B21(k, vector<int>(k)), B22(k, vector<int>(k));
+        A21(k, vector<int>(k)), A22(k, vector<int>(k)),
+        B11(k, vector<int>(k)), B12(k, vector<int>(k)),
+        B21(k, vector<int>(k)), B22(k, vector<int>(k));
 
-    for (int i = 0; i < k; i++) {
-        for (int j = 0; j < k; j++) {
+    for (int i = 0; i < k; i++)
+    {
+        for (int j = 0; j < k; j++)
+        {
             A11[i][j] = A[i][j];
             A12[i][j] = A[i][j + k];
             A21[i][j] = A[i + k][j];
@@ -169,8 +192,10 @@ vector<vector<int>> strassenMultiply(const vector<vector<int>>& A, const vector<
     auto C22 = subtract(subtract(add(P1, P5), P3), P7);
 
     // Combine the quarters into the final result matrix
-    for (int i = 0; i < k; i++) {
-        for (int j = 0; j < k; j++) {
+    for (int i = 0; i < k; i++)
+    {
+        for (int j = 0; j < k; j++)
+        {
             C[i][j] = C11[i][j];
             C[i][j + k] = C12[i][j];
             C[i + k][j] = C21[i][j];
@@ -181,11 +206,12 @@ vector<vector<int>> strassenMultiply(const vector<vector<int>>& A, const vector<
     return C;
 }
 
-
 // 4.  parallel basic matrix multiplication
 // Function to multiply two matrices in parallel using OpenMP
-vector<vector<int>> parallelMatrixMultiply(const vector<vector<int>>& matrix1, const vector<vector<int>>& matrix2) {
-    if (matrix1.empty() || matrix2.empty()) return {};
+vector<vector<int>> parallelMatrixMultiply(const vector<vector<int>> &matrix1, const vector<vector<int>> &matrix2)
+{
+    if (matrix1.empty() || matrix2.empty())
+        return {};
 
     int rows1 = matrix1.size();
     int cols1 = matrix1[0].size();
@@ -193,17 +219,22 @@ vector<vector<int>> parallelMatrixMultiply(const vector<vector<int>>& matrix1, c
     int cols2 = matrix2[0].size();
 
     // Check if multiplication is possible
-    if (cols1 != rows2) {
+    if (cols1 != rows2)
+    {
         throw invalid_argument("Matrices cannot be multiplied due to incompatible dimensions.");
     }
 
     vector<vector<int>> result(rows1, vector<int>(cols2, 0));
 
-    #pragma omp parallel for collapse(2) // Parallelize the outer two loops
-    for (int i = 0; i < rows1; i++) {
-        for (int j = 0; j < cols2; j++) {
-            for (int k = 0; k < cols1; k++) {
-                #pragma omp atomic // Protects the write operation
+#pragma omp parallel for collapse(2) // Parallelize the outer two loops
+    for (int i = 0; i < rows1; i++)
+    {
+        for (int k = 0; k < cols1; k++)
+        {
+            for (int j = 0; j < cols2; j++)
+            {
+
+#pragma omp atomic // Protects the write operation
                 result[i][j] += matrix1[i][k] * matrix2[k][j];
             }
         }
@@ -212,21 +243,28 @@ vector<vector<int>> parallelMatrixMultiply(const vector<vector<int>>& matrix1, c
     return result;
 }
 
-
 // 5. Cannon's algorithm for parallel matrix multiplication
 // Simple function to perform block-wise multiplication of two matrices
-vector<vector<int>> blockWiseMultiply(const vector<vector<int>>& A, const vector<vector<int>>& B) {
+vector<vector<int>> blockWiseMultiply(const vector<vector<int>> &A, const vector<vector<int>> &B)
+{
     const int BLOCK_SIZE = 64; // Adjust based on cache size
     int n = A.size();
     vector<vector<int>> C(n, vector<int>(n, 0));
 
-    #pragma omp parallel for collapse(2) shared(A, B, C)
-    for (int i0 = 0; i0 < n; i0 += BLOCK_SIZE) {
-        for (int j0 = 0; j0 < n; j0 += BLOCK_SIZE) {
-            for (int k0 = 0; k0 < n; k0 += BLOCK_SIZE) {
-                for (int i = i0; i < min(i0 + BLOCK_SIZE, n); ++i) {
-                    for (int j = j0; j < min(j0 + BLOCK_SIZE, n); ++j) {
-                        for (int k = k0; k < min(k0 + BLOCK_SIZE, n); ++k) {
+#pragma omp parallel for collapse(2) shared(A, B, C)
+
+    for (int k0 = 0; k0 < n; k0 += BLOCK_SIZE)
+    {
+        for (int i0 = 0; i0 < n; i0 += BLOCK_SIZE)
+        {
+            for (int j0 = 0; j0 < n; j0 += BLOCK_SIZE)
+            {
+                for (int i = i0; i < min(i0 + BLOCK_SIZE, n); ++i)
+                {
+                    for (int k = k0; k < min(k0 + BLOCK_SIZE, n); ++k)
+                    {
+                        for (int j = j0; j < min(j0 + BLOCK_SIZE, n); ++j)
+                        {
                             C[i][j] += A[i][k] * B[k][j];
                         }
                     }
@@ -238,14 +276,15 @@ vector<vector<int>> blockWiseMultiply(const vector<vector<int>>& A, const vector
     return C;
 }
 
-
-
 // 6. matrix multiplication using the fork-join model in shared-memory parallelism
 // Helper function to create a submatrix
-vector<vector<int>> getSubmatrix(const vector<vector<int>>& matrix, int rowStart, int colStart, int size) {
+vector<vector<int>> getSubmatrix(const vector<vector<int>> &matrix, int rowStart, int colStart, int size)
+{
     vector<vector<int>> submatrix(size, vector<int>(size, 0));
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
+    for (int i = 0; i < size; ++i)
+    {
+        for (int j = 0; j < size; ++j)
+        {
             submatrix[i][j] = matrix[rowStart + i][colStart + j];
         }
     }
@@ -253,19 +292,26 @@ vector<vector<int>> getSubmatrix(const vector<vector<int>>& matrix, int rowStart
 }
 
 // Helper function to add matrices A and B, store result in C
-void addMatrices(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int size) {
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
+void addMatrices(const vector<vector<int>> &A, const vector<vector<int>> &B, vector<vector<int>> &C, int size)
+{
+    for (int i = 0; i < size; ++i)
+    {
+        for (int j = 0; j < size; ++j)
+        {
             C[i][j] = A[i][j] + B[i][j];
         }
     }
 }
 
 // Recursive function to multiply matrices A and B, store result in C
-void multiplyRecursive(const vector<vector<int>>& A, const vector<vector<int>>& B, vector<vector<int>>& C, int size) {
-    if (size == 1) {
+void multiplyRecursive(const vector<vector<int>> &A, const vector<vector<int>> &B, vector<vector<int>> &C, int size)
+{
+    if (size == 1)
+    {
         C[0][0] = A[0][0] * B[0][0];
-    } else {
+    }
+    else
+    {
         int newSize = size / 2;
         vector<vector<int>> A11 = getSubmatrix(A, 0, 0, newSize);
         vector<vector<int>> A12 = getSubmatrix(A, 0, newSize, newSize);
@@ -283,27 +329,27 @@ void multiplyRecursive(const vector<vector<int>>& A, const vector<vector<int>>& 
         vector<vector<int>> temp1(newSize, vector<int>(newSize, 0));
         vector<vector<int>> temp2(newSize, vector<int>(newSize, 0));
 
-        #pragma omp parallel sections
+#pragma omp parallel sections
         {
-            #pragma omp section
+#pragma omp section
             {
                 multiplyRecursive(A11, B11, C11, newSize);
                 multiplyRecursive(A12, B21, temp1, newSize);
                 addMatrices(C11, temp1, C11, newSize);
             }
-            #pragma omp section
+#pragma omp section
             {
                 multiplyRecursive(A11, B12, C12, newSize);
                 multiplyRecursive(A12, B22, temp2, newSize);
                 addMatrices(C12, temp2, C12, newSize);
             }
-            #pragma omp section
+#pragma omp section
             {
                 multiplyRecursive(A21, B11, C21, newSize);
                 multiplyRecursive(A22, B21, temp1, newSize);
                 addMatrices(C21, temp1, C21, newSize);
             }
-            #pragma omp section
+#pragma omp section
             {
                 multiplyRecursive(A21, B12, C22, newSize);
                 multiplyRecursive(A22, B22, temp2, newSize);
@@ -312,8 +358,10 @@ void multiplyRecursive(const vector<vector<int>>& A, const vector<vector<int>>& 
         }
 
         // Combine the results into C
-        for (int i = 0; i < newSize; ++i) {
-            for (int j = 0; j < newSize; ++j) {
+        for (int i = 0; i < newSize; ++i)
+        {
+            for (int j = 0; j < newSize; ++j)
+            {
                 C[i][j] = C11[i][j];
                 C[i][j + newSize] = C12[i][j];
                 C[i + newSize][j] = C21[i][j];
@@ -323,19 +371,23 @@ void multiplyRecursive(const vector<vector<int>>& A, const vector<vector<int>>& 
     }
 }
 
-vector<vector<int>> sharedMemoryMultiply(const vector<vector<int>>& A, const vector<vector<int>>& B) {
-    int n = A.size(); // Assuming A and B are square and of equal size.
+vector<vector<int>> sharedMemoryMultiply(const vector<vector<int>> &A, const vector<vector<int>> &B)
+{
+    int n = A.size();                            // Assuming A and B are square and of equal size.
     vector<vector<int>> C(n, vector<int>(n, 0)); // Initialize the result matrix.
     multiplyRecursive(A, B, C, n);
     return C;
 }
 
-//Performance Test
+// Performance Test
 
 // Function to print a matrix
-void printMatrix(const vector<vector<int>>& matrix) {
-    for (const auto& row : matrix) {
-        for (int val : row) {
+void printMatrix(const vector<vector<int>> &matrix)
+{
+    for (const auto &row : matrix)
+    {
+        for (int val : row)
+        {
             cout << val << " ";
         }
         cout << endl;
@@ -343,14 +395,17 @@ void printMatrix(const vector<vector<int>>& matrix) {
 }
 
 // Function to generate a random matrix of given dimensions
-vector<vector<int>> generateRandomMatrix(int rows, int cols) {
-    random_device rd; // Obtain a random number from hardware
-    mt19937 eng(rd()); // Seed the generator
+vector<vector<int>> generateRandomMatrix(int rows, int cols)
+{
+    random_device rd;                       // Obtain a random number from hardware
+    mt19937 eng(rd());                      // Seed the generator
     uniform_int_distribution<> distr(0, 9); // Define the range
 
     vector<vector<int>> matrix(rows, vector<int>(cols));
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
+    for (int i = 0; i < rows; ++i)
+    {
+        for (int j = 0; j < cols; ++j)
+        {
             matrix[i][j] = distr(eng); // Assign random numbers
         }
     }
@@ -385,11 +440,11 @@ vector<vector<int>> generateRandomMatrix(int rows, int cols) {
 //     return 0;
 // }
 
+// int main()
+// {
 
-
-// int main() {
-
-//     for (int size = 200; size <= 2000; size+=200 ) {
+//     for (int size = 256; size <= 2048; size += 256)
+//     {
 //         cout << "Matrix size: " << size << "x" << size << endl;
 
 //         vector<vector<int>> A = generateRandomMatrix(size, size);
@@ -402,28 +457,28 @@ vector<vector<int>> generateRandomMatrix(int rows, int cols) {
 //         // Memory Usage: High (stores full result matrix, no extra memory)
 //         // Additional Operations: Minimal
 //         // Cache Utilization: Low (straightforward access pattern may not be optimal for cache)
-//         auto start = high_resolution_clock::now();
-//         auto C1 = multiplyMatrices(A, B);
-//         auto stop = high_resolution_clock::now();
-//         timings.emplace_back("Basic: ", duration_cast<milliseconds>(stop - start).count());
+//         // auto start = high_resolution_clock::now();
+//         // auto C1 = multiplyMatrices(A, B);
+//         // auto stop = high_resolution_clock::now();
+//         // timings.emplace_back("Basic: ", duration_cast<milliseconds>(stop - start).count());
 
 //         // 2. Cache Friendly Matrix Multiplication
 //         // Memory Usage: High (similar to basic, but with potential for additional stack usage for blocks)
 //         // Additional Operations: Minimal
 //         // Cache Utilization: High (designed to improve cache hit rate by accessing blocks that fit in cache)
-//         start = high_resolution_clock::now();
+//         auto start = high_resolution_clock::now();
 //         auto C2 = multiplyMatricesCacheFriendly(A, B);
-//         stop = high_resolution_clock::now();
+//         auto stop = high_resolution_clock::now();
 //         timings.emplace_back("Cache Friendly: ", duration_cast<milliseconds>(stop - start).count());
 
 //         // 3. Strassen's Algorithm
 //         // Memory Usage: Very High (requires additional matrices for the 7 recursive multiplications)
 //         // Additional Operations: Higher (involves additions and subtractions of matrices)
 //         // Cache Utilization: Moderate (recursive nature can be more cache-friendly than basic method, but less so than block-wise methods)
-//         start = high_resolution_clock::now();
-//         auto C3 = strassenMultiply(A, B);
-//         stop = high_resolution_clock::now();
-//         timings.emplace_back("Strassen: ", duration_cast<milliseconds>(stop - start).count());
+//         // start = high_resolution_clock::now();
+//         // auto C3 = strassenMultiply(A, B);
+//         // stop = high_resolution_clock::now();
+//         // timings.emplace_back("Strassen: ", duration_cast<milliseconds>(stop - start).count());
 
 //         // 4. Parallel Matrix Multiplication
 //         // Memory Usage: High (similar to basic method)
@@ -443,22 +498,21 @@ vector<vector<int>> generateRandomMatrix(int rows, int cols) {
 //         stop = high_resolution_clock::now();
 //         timings.emplace_back("Block-wise: ", duration_cast<milliseconds>(stop - start).count());
 
-
 //         // 6. Shared-memory parallelism (Fork–join model) Matrix Multiplication
 //         // Memory Usage: Very High (similar to cache-friendly method)
 //         // Additional Operations: Higher
 //         // Cache Utilization:  (optimized block-wise access pattern)
-//         start = high_resolution_clock::now();
-//         auto C6 = sharedMemoryMultiply(A, B);
-//         stop = high_resolution_clock::now();
-//         timings.emplace_back("Fork-join model in shared-memory: ", duration_cast<milliseconds>(stop - start).count());
+//         // start = high_resolution_clock::now();
+//         // auto C6 = sharedMemoryMultiply(A, B);
+//         // stop = high_resolution_clock::now();
+//         // timings.emplace_back("Fork-join model in shared-memory: ", duration_cast<milliseconds>(stop - start).count());
 
 //         // Sort and print timings
-//         sort(timings.begin(), timings.end(), [](const pair<string, long long>& a, const pair<string, long long>& b) {
-//             return a.second < b.second;
-//         });
+//         std::sort(timings.begin(), timings.end(), [](const pair<string, long long> &a, const pair<string, long long> &b)
+//                   { return a.second < b.second; });
 
-//         for (auto& timing : timings) {
+//         for (auto &timing : timings)
+//         {
 //             cout << "  " << timing.first << " Time: " << timing.second << " ms" << endl;
 //         }
 
@@ -468,11 +522,12 @@ vector<vector<int>> generateRandomMatrix(int rows, int cols) {
 //     return 0;
 // }
 
-
 // For python test
-int main() {
-    
-    for (int size = 100; size <= 1100; size+=200) {
+int main()
+{
+
+    for (int size = 200; size <= 2000; size += 200)
+    {
         cout << "Matrix size: " << size << "x" << size << endl;
 
         vector<vector<int>> A = generateRandomMatrix(size, size);
@@ -520,4 +575,77 @@ int main() {
     return 0;
 }
 
-// g++ -fopenmp -o MatrixMultiply MatrixMultiply.cpp -O3
+// g++ -fopenmp -march=native -ffast-math -fopt-info-vec -o MatrixMultiply MatrixMultiply.cpp -O3 && ./MatrixMultiply
+// valgrind --tool=cachegrind ./MatrixMultiply
+
+
+// ==325== Cachegrind, a cache and branch-prediction profiler
+// ==325== Copyright (C) 2002-2017, and GNU GPL'd, by Nicholas Nethercote et al.
+// ==325== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+// ==325== Command: ./MatrixMultiply
+// ==325==
+// --325-- warning: L3 cache found, using its data for the LL simulation.
+// --325-- warning: specified LL cache: line_size 64  assoc 16  total_size 12,582,912
+// --325-- warning: simulated LL cache: line_size 64  assoc 24  total_size 12,582,912
+// Matrix size: 256x256
+//   Cache Friendly:  Time: 321 ms
+//   Parallel:  Time: 2844 ms
+//   Block-wise:  Time: 2966 ms
+
+// Matrix size: 512x512
+//   Cache Friendly:  Time: 2697 ms
+//   Parallel:  Time: 21804 ms
+//   Block-wise:  Time: 23108 ms
+
+// Matrix size: 768x768
+// ==325== brk segment overflow in thread #1: can't grow to 0x4851000
+// ==325== (see section Limitations in user manual)
+// ==325== NOTE: further instances of this message will not be shown
+
+//   Cache Friendly:  Time: 8836 ms
+//   Parallel:  Time: 72713 ms
+//   Block-wise:  Time: 78379 ms
+
+// Matrix size: 1024x1024
+
+// ^[[B^[[B^[[A^[[A  Cache Friendly:  Time: 21799 ms
+//   Parallel:  Time: 181382 ms
+//   Block-wise:  Time: 196793 ms
+
+// Matrix size: 1280x1280
+
+//   Cache Friendly:  Time: 41662 ms
+//   Parallel:  Time: 346354 ms
+//   Block-wise:  Time: 360539 ms
+
+// Matrix size: 1536x1536
+//   Cache Friendly:  Time: 72161 ms
+//   Parallel:  Time: 619099 ms
+//   Block-wise:  Time: 670887 ms
+
+// Matrix size: 1792x1792
+//   Cache Friendly:  Time: 124589 ms
+//   Block-wise:  Time: 1003879 ms
+//   Parallel:  Time: 1029731 ms
+
+// Matrix size: 2048x2048
+//   Cache Friendly:  Time: 182483 ms
+//   Parallel:  Time: 1443399 ms
+//   Block-wise:  Time: 1488131 ms
+
+// ==325==
+// ==325== I   refs:      818,519,398,743
+// ==325== I1  misses:              4,587
+// ==325== LLi misses:              3,769
+// ==325== I1  miss rate:            0.00%
+// ==325== LLi miss rate:            0.00%
+// ==325==
+// ==325== D   refs:      584,802,692,180  (579,033,122,983 rd   + 5,769,569,197 wr)
+// ==325== D1  misses:      4,586,209,103  (  4,580,312,869 rd   +     5,896,234 wr)
+// ==325== LLd misses:        699,332,675  (    694,918,386 rd   +     4,414,289 wr)
+// ==325== D1  miss rate:             0.8% (            0.8%     +           0.1%  )
+// ==325== LLd miss rate:             0.1% (            0.1%     +           0.1%  )
+// ==325==
+// ==325== LL refs:         4,586,213,690  (  4,580,317,456 rd   +     5,896,234 wr)
+// ==325== LL misses:         699,336,444  (    694,922,155 rd   +     4,414,289 wr)
+// ==325== LL miss rate:              0.0% (            0.0%     +           0.1%  )
