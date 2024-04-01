@@ -84,7 +84,7 @@ void printTree(const unique_ptr<TreeNode> &root)
 
 int main()
 {
-    Interval intervals[] = {{15, 20}, {10, 30}, {17, 19}, {5, 20}, {12, 15}, {30, 40}};
+    Interval intervals[] = {{11, 21}, {9, 33}, {17, 19}, {5, 29}, {11, 18}, {30, 48}, {60, 88}};
     int n = sizeof(intervals) / sizeof(intervals[0]);
     unique_ptr<TreeNode> root = nullptr;
     for (int i = 0; i < n; i++)
@@ -105,5 +105,31 @@ int main()
 
     return 0;
 }
+
+
+// int main()
+// {
+//     // Let us create interval tree shown in above figure
+//     Interval ints[] = {{15, 20}, {10, 30}, {17, 19},
+//         {5, 20}, {12, 15}, {30, 40}
+//     };
+//     int n = sizeof(ints)/sizeof(ints[0]);
+//     unique_ptr<TreeNode> root = nullptr;
+//     for (int i = 0; i < n; i++)
+//         root = insert(move(root), ints[i]);
+ 
+//     cout << "Inorder traversal of constructed Interval Tree is\n";
+//     printTree(root);
+ 
+//     Interval x = {6, 7};
+ 
+//     cout << "\nSearching for interval [" << x.low << "," << x.high << "]";
+//     Interval *res = overlapSearch(root, x);
+//     if (res == NULL)
+//         cout << "\nNo Overlapping Interval";
+//     else
+//         cout << "\nOverlaps with [" << res->low << ", " << res->high << "]";
+//     return 0;
+// }
 
 // g++ -pg -fsanitize=address -g ./intervalTree.cpp -o iT -O3  && ./iT
