@@ -1,82 +1,84 @@
-#include <mpi.h>
-#include <iostream>
-#include <vector>
-#include <queue>
-
 // Distributed BFS with 1-D Partitioning
+#include <algorithm>
+#include <iostream>
+#include <limits>
+#include <mpi.h>
+#include <vector>
+
 std::vector<int> graph[] = {
-    {1, 2},        // Neighbors of vertex 0
-    {0, 3, 4},     // Neighbors of vertex 1
-    {0, 5},        // Neighbors of vertex 2
-    {1, 6},        // Neighbors of vertex 3
-    {1, 6, 7},     // Neighbors of vertex 4
-    {2, 7},        // Neighbors of vertex 5
-    {3, 4},        // Neighbors of vertex 6
-    {4, 5}         // Neighbors of vertex 7
+    {1, 2},    // Neighbors of vertex 0
+    {0, 3, 4}, // Neighbors of vertex 1
+    {0, 5},    // Neighbors of vertex 2
+    {1, 6},    // Neighbors of vertex 3
+    {1, 6, 7}, // Neighbors of vertex 4
+    {2, 7},    // Neighbors of vertex 5
+    {3, 4},    // Neighbors of vertex 6
+    {4, 5}     // Neighbors of vertex 7
 };
 
-// Function to perform distributed BFS
-void distributed_bfs(int world_rank, int world_size) {
-    int total_vertices = sizeof(graph) / sizeof(graph[0]);
-    int vertices_per_process = total_vertices / world_size; // Assuming a total of 4 vertices for simplicity
+void distributed_bfs(int start_vertex, std::vector<int> &levels, int rank,
+                     int world_size) {
+  int num_vertices = sizeof(graph) / sizeof(graph[0]);
+  std::vector<int> local_levels(num_vertices, std::numeric_limits<int>::max());
+  // Initialize local BFS levels
+  local_levels[start_vertex] = 0;
+  std::vector<int> level_changes(num_vertices, 0);
 
-    std::queue<int> q;
-    bool visited[total_vertices] = {false}; // Tracking visited vertices, assuming 4 vertices for simplicity
-    
-    // Start BFS from vertex 0 in process 0
-    if (world_rank == 0) {
-        q.push(0); // Assuming BFS starts from vertex 0
-    }
-
-    while (!q.empty()) {
-        int current_vertex = q.front();
-        q.pop();
-
-        // Check if current_vertex is part of the current process's responsibility
-        if (current_vertex / vertices_per_process == world_rank) {
-            if (!visited[current_vertex]) {
-                visited[current_vertex] = true;
-                std::cout << "Process " << world_rank << " visiting vertex " << current_vertex << std::endl;
-
-                // Add unvisited neighbors to the queue
-                for (int neighbor : graph[current_vertex]) {
-                    if (!visited[neighbor]) {
-                        q.push(neighbor);
-                    }
-                }
-            }
-        } else {
-            // If the vertex is not part of this process, send it to the responsible process
-            MPI_Send(&current_vertex, 1, MPI_INT, current_vertex / vertices_per_process, 0, MPI_COMM_WORLD);
+  // Main BFS loop
+  bool changed;
+  do {
+    changed = false;
+    fill(level_changes.begin(), level_changes.end(), 0);
+    // Check each vertex to see if it is at the current level.
+    for (int vertex = 0; vertex < num_vertices; ++vertex) {
+      if (local_levels[vertex] == std::numeric_limits<int>::max()) {
+        continue; // Skip vertices that are not yet reached.
+      }
+      for (int neighbor : graph[vertex]) {
+        if (local_levels[neighbor] == std::numeric_limits<int>::max()) {
+          level_changes[neighbor] = local_levels[vertex] + 1;
+          changed = true;
         }
-
-        // Check for incoming vertices from other processes
-        MPI_Status status;
-        int incoming_vertex;
-        if (MPI_Recv(&incoming_vertex, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status) == MPI_SUCCESS) {
-            q.push(incoming_vertex);
-        }
+      }
     }
+    // Apply changes if there are any
+    for (int i = 0; i < num_vertices; ++i) {
+      if (level_changes[i] != 0) {
+        local_levels[i] = level_changes[i];
+      }
+    }
+    // Communicate the changes to all processors
+    MPI_Allreduce(MPI_IN_PLACE, local_levels.data(), num_vertices, MPI_INT,
+                  MPI_MIN, MPI_COMM_WORLD);
+    MPI_Allreduce(MPI_IN_PLACE, &changed, 1, MPI_C_BOOL, MPI_LOR,
+                  MPI_COMM_WORLD);
+  } while (changed);
+  // Update the global levels vector with the local levels
+  levels = local_levels;
 }
 
-int main(int argc, char** argv) {
-    MPI_Init(&argc, &argv);
+int main(int argc, char **argv) {
+  MPI_Init(&argc, &argv);
+  int world_size, rank;
+  MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    int world_size;
-    MPI_Comm_size(MPI_COMM_WORLD, &world_size); // Total number of processes
+  int num_vertices = sizeof(graph) / sizeof(graph[0]);
+  std::vector<int> levels(num_vertices, std::numeric_limits<int>::max());
 
-    int world_rank;
-    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank); // The current process ID
+  // Assuming vertex 0 is the source vertex for BFS
+  distributed_bfs(0, levels, rank, world_size);
 
-    // Call the distributed BFS function
-    distributed_bfs(world_rank, world_size);
+  // Print the BFS levels
+  if (rank == 0) {
+    for (int i = 0; i < num_vertices; ++i) {
+      std::cout << "Vertex " << i << " has level " << levels[i] << std::endl;
+    }
+  }
 
-    MPI_Finalize();
-    return 0;
+  MPI_Finalize();
+  return 0;
 }
-
 
 // compile: mpicxx distributed_bfs.cpp -o distributed_bfs -O3
 // execute: mpiexec -n 4 ./distributed_bfs
-
-
