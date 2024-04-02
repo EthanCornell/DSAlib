@@ -1,4 +1,5 @@
 // Distributed BFS with 1-D Partitioning
+// ref :https://en.wikipedia.org/wiki/Parallel_breadth-first_search
 #include <algorithm>
 #include <iostream>
 #include <limits>
