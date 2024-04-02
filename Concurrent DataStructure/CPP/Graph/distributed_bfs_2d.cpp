@@ -142,8 +142,8 @@ void expandPhase(std::queue<int> &frontier, std::vector<int> &distances) {
   }
 
   // Note: At this point, each processor in the column knows about all frontier
-  // vertices. You might need to filter these vertices to avoid re-visiting or
-  // handle them according to your graph partitioning.
+  // vertices. We might need to filter these vertices to avoid re-visiting or
+  // handle them according to  graph partitioning.
 }
 
 // This function checks if all processors have an empty frontier,
@@ -201,14 +201,14 @@ void foldPhase(std::queue<int> &new_frontier, std::vector<int> &distances) {
 
   // Step 4: Each processor now has all the new vertices discovered by
   // processors in its row Processors need to filter out vertices that they are
-  // responsible for This step depends on your graph partitioning logic, for
+  // responsible for This step depends on graph partitioning logic, for
   // example: for (int vertex : all_new_frontier_vertices) {
   //     if (isResponsibleForVertex(vertex)) { // Implement this function based
-  //     on your partitioning scheme
+  //     on partitioning scheme
   //         new_frontier.push(vertex);
   //     }
   // }
-  // Note: The above loop is a placeholder. You'll need to implement logic to
+  // Note: The above loop is a placeholder. We'll need to implement logic to
   // determine if a vertex belongs to the processor's sub-graph.
 }
 
@@ -237,7 +237,7 @@ void parallelBFS(int source, const std::vector<std::vector<int>> &graph,
   }
 
   // Note: This example assumes the entire graph is stored on each processor,
-  // which may not align with distributed BFS logic. Adjust as needed for your
+  // which may not align with distributed BFS logic. Adjust as needed for
   // distributed logic.
 }
 
@@ -346,7 +346,7 @@ int main(int argc, char **argv) {
   setupMPI();
 
   // Example usage of graph creation and testing BFS
-  int numVertices = 10; // Adjust based on your test scenario
+  int numVertices = 10; // Adjust based on test scenario
   int branchingFactor = 2;
   if (rank == 0) { // Only the root processor outputs, but all processors should
                    // participate in the test
